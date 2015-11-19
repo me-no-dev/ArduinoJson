@@ -8,6 +8,10 @@
 
 namespace ArduinoJson {
 namespace Internals {
+#ifdef ARDUINO
 typedef long JsonInteger;
+#else
+typedef long long JsonInteger;
+#endif
 }
 }

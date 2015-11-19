@@ -22,6 +22,12 @@ String::String(long value) {
   *this = tmp;
 }
 
+String::String(long long value) {
+  char tmp[64];
+  sprintf(tmp, "%lld", value);
+  *this = tmp;
+}
+
 String::String(int value) {
   char tmp[32];
   sprintf(tmp, "%d", value);

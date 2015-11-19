@@ -22,6 +22,7 @@ class Print {
   size_t print(double, int = 2);
   size_t print(int);
   size_t print(long);
+  size_t print(long long);
   size_t println();
 };
 

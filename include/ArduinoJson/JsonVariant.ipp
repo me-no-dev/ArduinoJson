@@ -66,6 +66,12 @@ inline JsonVariant::JsonVariant(signed long value) {
   _content.asInteger = static_cast<JsonInteger>(value);
 }
 
+inline JsonVariant::JsonVariant(signed long long value) {
+  using namespace Internals;
+  _type = JSON_INTEGER;
+  _content.asInteger = static_cast<JsonInteger>(value);
+}
+
 inline JsonVariant::JsonVariant(signed short value) {
   using namespace Internals;
   _type = JSON_INTEGER;
@@ -85,6 +91,12 @@ inline JsonVariant::JsonVariant(unsigned int value) {
 }
 
 inline JsonVariant::JsonVariant(unsigned long value) {
+  using namespace Internals;
+  _type = JSON_INTEGER;
+  _content.asInteger = static_cast<JsonInteger>(value);
+}
+
+inline JsonVariant::JsonVariant(unsigned long long value) {
   using namespace Internals;
   _type = JSON_INTEGER;
   _content.asInteger = static_cast<JsonInteger>(value);
@@ -143,8 +155,13 @@ inline unsigned long JsonVariant::as<unsigned long>() const {
 }
 
 template <>
-inline signed long JsonVariant::as<signed long>() const {
-  return static_cast<unsigned long>(asInteger());
+inline signed long long JsonVariant::as<signed long long>() const {
+  return static_cast<signed long long>(asInteger());
+}
+
+template <>
+inline unsigned long long JsonVariant::as<unsigned long long>() const {
+  return static_cast<unsigned long long>(asInteger());
 }
 
 template <>
@@ -166,9 +183,6 @@ template <typename T>
 inline bool JsonVariant::is() const {
   return false;
 }
-
-template <>  // in .cpp
-bool JsonVariant::is<signed long>() const;
 
 template <>  // in .cpp
 bool JsonVariant::is<double>() const;
@@ -210,37 +224,52 @@ inline bool JsonVariant::is<JsonObject const &>() const {
 
 template <>
 inline bool JsonVariant::is<signed char>() const {
-  return is<signed long>();
+  return isInteger();
 }
 
 template <>
 inline bool JsonVariant::is<signed int>() const {
-  return is<signed long>();
+  return isInteger();
+}
+
+template <>
+inline bool JsonVariant::is<signed long>() const {
+  return isInteger();
+}
+
+template <>
+inline bool JsonVariant::is<signed long long>() const {
+  return isInteger();
 }
 
 template <>
 inline bool JsonVariant::is<signed short>() const {
-  return is<signed long>();
+  return isInteger();
 }
 
 template <>
 inline bool JsonVariant::is<unsigned char>() const {
-  return is<signed long>();
+  return isInteger();
 }
 
 template <>
 inline bool JsonVariant::is<unsigned int>() const {
-  return is<signed long>();
+  return isInteger();
 }
 
 template <>
 inline bool JsonVariant::is<unsigned long>() const {
-  return is<signed long>();
+  return isInteger();
+}
+
+template <>
+inline bool JsonVariant::is<unsigned long long>() const {
+  return isInteger();
 }
 
 template <>
 inline bool JsonVariant::is<unsigned short>() const {
-  return is<signed long>();
+  return isInteger();
 }
 
 #ifdef ARDUINOJSON_ENABLE_STD_STREAM

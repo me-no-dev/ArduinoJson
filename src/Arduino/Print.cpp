@@ -60,6 +60,12 @@ size_t Print::print(long value) {
   return print(tmp);
 }
 
+size_t Print::print(long long value) {
+  char tmp[64];
+  sprintf(tmp, "%lld", value);
+  return print(tmp);
+}
+
 size_t Print::print(int value) {
   char tmp[32];
   sprintf(tmp, "%d", value);

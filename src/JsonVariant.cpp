@@ -35,6 +35,11 @@ long parse<long>(const char *s) {
 }
 
 template <>
+long long parse<long long>(const char *s) {
+  return strtoll(s, NULL, 10);
+}
+
+template <>
 int parse<int>(const char *s) {
   return atoi(s);
 }
@@ -93,8 +98,7 @@ String JsonVariant::as<String>() const {
   return s;
 }
 
-template <>
-bool JsonVariant::is<signed long>() const {
+bool JsonVariant::isInteger() const {
   if (_type == JSON_INTEGER) return true;
 
   if (_type != JSON_UNPARSED || _content.asString == NULL) return false;
