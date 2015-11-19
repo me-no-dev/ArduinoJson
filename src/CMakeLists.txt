@@ -43,9 +43,14 @@ endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 	add_definitions(
-		-Wc++11-compat
 		-Wdeprecated-register
 	)
+
+	if (NOT DEFINED CMAKE_CXX_STANDARD OR ${CMAKE_CXX_STANDARD} LESS 11)	
+		add_definitions(
+            -Wc++11-compat # we don't want to depend on C++11 features
+    	)
+	endif()
 endif()
 
 if(MSVC)
