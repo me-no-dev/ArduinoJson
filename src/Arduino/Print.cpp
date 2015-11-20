@@ -8,7 +8,6 @@
 
 #include "../../include/ArduinoJson/Arduino/Print.hpp"
 
-#include <math.h>   // for isnan() and isinf()
 #include <stdio.h>  // for sprintf()
 
 // only for GCC 4.9+
@@ -17,11 +16,11 @@
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
 #endif
 
-// Visual Studo 2012 didn't have isnan, nor isinf
-#if defined(_MSC_VER) && _MSC_VER <= 1700
-#include <float.h>
-#define isnan(x) _isnan(x)
-#define isinf(x) (!_finite(x))
+#ifndef __FAST_MATH__
+bool isnan(double x) { return x != x; }
+bool isinf(double x) { return !isnan(x) && isnan(x - x); }
+#else
+#include <math.h>
 #endif
 
 size_t Print::print(const char s[]) {
