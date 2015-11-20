@@ -150,6 +150,11 @@ inline unsigned int JsonVariant::as<unsigned int>() const {
 }
 
 template <>
+inline signed long JsonVariant::as<signed long>() const {
+  return static_cast<signed long>(asInteger());
+}
+
+template <>
 inline unsigned long JsonVariant::as<unsigned long>() const {
   return static_cast<unsigned long>(asInteger());
 }
