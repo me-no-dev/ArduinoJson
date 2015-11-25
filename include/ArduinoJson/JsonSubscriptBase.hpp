@@ -27,8 +27,8 @@ class JsonSubscriptBase : public JsonVariantBase<TImpl> {
     return assign<signed long>(value);
   }
 
-  FORCE_INLINE TImpl& operator=(signed long long value) {
-    return assign<signed long long>(value);
+  FORCE_INLINE TImpl& operator=(int64_t value) {
+    return assign<int64_t>(value);
   }
 
   FORCE_INLINE TImpl& operator=(signed int value) {
@@ -47,8 +47,8 @@ class JsonSubscriptBase : public JsonVariantBase<TImpl> {
     return assign<unsigned long>(value);
   }
 
-  FORCE_INLINE TImpl& operator=(unsigned long long value) {
-    return assign<unsigned long long>(value);
+  FORCE_INLINE TImpl& operator=(uint64_t value) {
+    return assign<uint64_t>(value);
   }
 
   FORCE_INLINE TImpl& operator=(unsigned int value) {

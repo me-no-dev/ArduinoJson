@@ -9,16 +9,13 @@
 #ifndef ARDUINO
 
 #include <string>
+#include <stdint.h>
 
 // This class reproduces Arduino's String class
 class String : public std::string {
  public:
   String(const char *cstr = "") : std::string(cstr) {}
   String(const String &str) : std::string(str) {}
-  explicit String(long);
-  explicit String(long long);
-  explicit String(int);
-  explicit String(double, unsigned char decimalPlaces = 2);
 };
 
 #else

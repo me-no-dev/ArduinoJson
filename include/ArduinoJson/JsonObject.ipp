@@ -83,8 +83,8 @@ inline bool JsonObject::set(const char *key, signed char value) {
 inline bool JsonObject::set(const char *key, signed long value) {
   return setNodeAt<const char *, signed long>(key, value);
 }
-inline bool JsonObject::set(const char *key, signed long long value) {
-  return setNodeAt<const char *, signed long long>(key, value);
+inline bool JsonObject::set(const char *key, int64_t value) {
+  return setNodeAt<const char *, int64_t>(key, value);
 }
 inline bool JsonObject::set(const char *key, signed int value) {
   return setNodeAt<const char *, signed int>(key, value);
@@ -98,8 +98,8 @@ inline bool JsonObject::set(const char *key, unsigned char value) {
 inline bool JsonObject::set(const char *key, unsigned long value) {
   return setNodeAt<const char *, unsigned long>(key, value);
 }
-inline bool JsonObject::set(const char *key, unsigned long long value) {
-  return setNodeAt<const char *, unsigned long long>(key, value);
+inline bool JsonObject::set(const char *key, uint64_t value) {
+  return setNodeAt<const char *, uint64_t>(key, value);
 }
 inline bool JsonObject::set(const char *key, unsigned int value) {
   return setNodeAt<const char *, unsigned int>(key, value);
@@ -143,8 +143,8 @@ inline bool JsonObject::set(const String &key, signed char value) {
 inline bool JsonObject::set(const String &key, signed long value) {
   return setNodeAt<const String &, signed long>(key, value);
 }
-inline bool JsonObject::set(const String &key, signed long long value) {
-  return setNodeAt<const String &, signed long long>(key, value);
+inline bool JsonObject::set(const String &key, int64_t value) {
+  return setNodeAt<const String &, int64_t>(key, value);
 }
 inline bool JsonObject::set(const String &key, signed int value) {
   return setNodeAt<const String &, signed int>(key, value);
@@ -158,8 +158,8 @@ inline bool JsonObject::set(const String &key, unsigned char value) {
 inline bool JsonObject::set(const String &key, unsigned long value) {
   return setNodeAt<const String &, unsigned long>(key, value);
 }
-inline bool JsonObject::set(const String &key, unsigned long long value) {
-  return setNodeAt<const String &, unsigned long long>(key, value);
+inline bool JsonObject::set(const String &key, uint64_t value) {
+  return setNodeAt<const String &, uint64_t>(key, value);
 }
 inline bool JsonObject::set(const String &key, unsigned int value) {
   return setNodeAt<const String &, unsigned int>(key, value);

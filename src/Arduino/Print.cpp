@@ -53,23 +53,25 @@ size_t Print::print(double value, int digits) {
   return print(tmp);
 }
 
-size_t Print::print(long value) {
+template <>
+size_t Print::printInteger<int>(int value) {
+  char tmp[32];
+  sprintf(tmp, "%d", value);
+  return print(tmp);
+}
+
+template <>
+size_t Print::printInteger<long>(long value) {
   char tmp[32];
   sprintf(tmp, "%ld", value);
   return print(tmp);
 }
 
-size_t Print::print(long long value) {
-  char tmp[64];
-  sprintf(tmp, "%lld", value);
-  return print(tmp);
-}
+size_t Print::print(int16_t value) { return printInteger(value); }
 
-size_t Print::print(int value) {
-  char tmp[32];
-  sprintf(tmp, "%d", value);
-  return print(tmp);
-}
+size_t Print::print(int32_t value) { return printInteger(value); }
+
+size_t Print::print(int64_t value) { return printInteger(value); }
 
 size_t Print::println() { return write('\r') + write('\n'); }
 

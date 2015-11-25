@@ -37,9 +37,7 @@ inline bool JsonArray::add(signed long value) {
   return addNode<signed long>(value);
 }
 
-inline bool JsonArray::add(signed long long value) {
-  return addNode<signed long long>(value);
-}
+inline bool JsonArray::add(int64_t value) { return addNode<int64_t>(value); }
 
 inline bool JsonArray::add(signed int value) {
   return addNode<signed int>(value);
@@ -57,9 +55,7 @@ inline bool JsonArray::add(unsigned long value) {
   return addNode<unsigned long>(value);
 }
 
-inline bool JsonArray::add(unsigned long long value) {
-  return addNode<unsigned long long>(value);
-}
+inline bool JsonArray::add(uint64_t value) { return addNode<uint64_t>(value); }
 
 inline bool JsonArray::add(unsigned int value) {
   return addNode<unsigned int>(value);
@@ -118,8 +114,8 @@ inline void JsonArray::set(size_t index, signed long value) {
   return setNodeAt<signed long>(index, value);
 }
 
-inline void JsonArray::set(size_t index, signed long long value) {
-  return setNodeAt<signed long long>(index, value);
+inline void JsonArray::set(size_t index, int64_t value) {
+  return setNodeAt<int64_t>(index, value);
 }
 
 inline void JsonArray::set(size_t index, signed int value) {
@@ -138,8 +134,8 @@ inline void JsonArray::set(size_t index, unsigned long value) {
   return setNodeAt<unsigned long>(index, value);
 }
 
-inline void JsonArray::set(size_t index, unsigned long long value) {
-  return setNodeAt<unsigned long long>(index, value);
+inline void JsonArray::set(size_t index, uint64_t value) {
+  return setNodeAt<uint64_t>(index, value);
 }
 
 inline void JsonArray::set(size_t index, unsigned int value) {

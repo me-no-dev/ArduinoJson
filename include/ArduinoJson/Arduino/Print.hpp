@@ -20,10 +20,14 @@ class Print {
 
   size_t print(const char[]);
   size_t print(double, int = 2);
-  size_t print(int);
-  size_t print(long);
-  size_t print(long long);
+  size_t print(int16_t);
+  size_t print(int32_t);
+  size_t print(int64_t);
   size_t println();
+
+ private:
+  template <typename T>
+  size_t printInteger(T value);
 };
 
 #else

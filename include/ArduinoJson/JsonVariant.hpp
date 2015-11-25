@@ -7,7 +7,7 @@
 #pragma once
 
 #include <stddef.h>
-#include <stdint.h>  // for uint8_t
+#include <stdint.h>
 
 #include "Internals/JsonPrintable.hpp"
 #include "Internals/JsonVariantContent.hpp"
@@ -44,16 +44,14 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
   FORCE_INLINE JsonVariant(double value, uint8_t decimals = 2);
 
   // Create a JsonVariant containing an integer value.
-  FORCE_INLINE JsonVariant(signed char value);
-  FORCE_INLINE JsonVariant(signed long value);
-  FORCE_INLINE JsonVariant(signed long long value);
-  FORCE_INLINE JsonVariant(signed int value);
-  FORCE_INLINE JsonVariant(signed short value);
-  FORCE_INLINE JsonVariant(unsigned char value);
-  FORCE_INLINE JsonVariant(unsigned long value);
-  FORCE_INLINE JsonVariant(unsigned long long value);
-  FORCE_INLINE JsonVariant(unsigned int value);
-  FORCE_INLINE JsonVariant(unsigned short value);
+  FORCE_INLINE JsonVariant(int8_t value);
+  FORCE_INLINE JsonVariant(int16_t value);
+  FORCE_INLINE JsonVariant(int32_t value);
+  FORCE_INLINE JsonVariant(int64_t value);
+  FORCE_INLINE JsonVariant(uint8_t value);
+  FORCE_INLINE JsonVariant(uint16_t value);
+  FORCE_INLINE JsonVariant(uint32_t value);
+  FORCE_INLINE JsonVariant(uint64_t value);
 
   // Create a JsonVariant containing a string.
   FORCE_INLINE JsonVariant(const char *value);

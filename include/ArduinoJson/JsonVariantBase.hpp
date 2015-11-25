@@ -30,20 +30,14 @@ class JsonVariantBase : public Internals::JsonPrintable<TImpl> {
 
   // Gets the variant as an integer value.
   // Returns 0 if the variant is not an integer value.
-  FORCE_INLINE operator signed long() const { return as<signed long>(); }
-  FORCE_INLINE operator signed long long() const {
-    return as<signed long long>();
-  }
-  FORCE_INLINE operator signed char() const { return as<signed char>(); }
-  FORCE_INLINE operator signed int() const { return as<signed int>(); }
-  FORCE_INLINE operator signed short() const { return as<signed short>(); }
-  FORCE_INLINE operator unsigned char() const { return as<unsigned char>(); }
-  FORCE_INLINE operator unsigned int() const { return as<unsigned int>(); }
-  FORCE_INLINE operator unsigned long() const { return as<unsigned long>(); }
-  FORCE_INLINE operator unsigned long long() const {
-    return as<unsigned long long>();
-  }
-  FORCE_INLINE operator unsigned short() const { return as<unsigned short>(); }
+  FORCE_INLINE operator int8_t() const { return as<int8_t>(); }
+  FORCE_INLINE operator int16_t() const { return as<int16_t>(); }
+  FORCE_INLINE operator int32_t() const { return as<int32_t>(); }
+  FORCE_INLINE operator int64_t() const { return as<int64_t>(); }
+  FORCE_INLINE operator uint8_t() const { return as<uint8_t>(); }
+  FORCE_INLINE operator uint16_t() const { return as<uint16_t>(); }
+  FORCE_INLINE operator uint32_t() const { return as<uint32_t>(); }
+  FORCE_INLINE operator uint64_t() const { return as<uint64_t>(); }
 
   // Gets the variant as a string.
   // Returns NULL if variant is not a string.

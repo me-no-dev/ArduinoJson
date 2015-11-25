@@ -6,12 +6,15 @@
 
 #pragma once
 
+// NOTE: Arduino doesn't include the C++ version <cstdint>
+#include <stdint.h>
+
 namespace ArduinoJson {
 namespace Internals {
 #ifdef ARDUINO
-typedef long JsonInteger;
+typedef int32_t JsonInteger;
 #else
-typedef long long JsonInteger;
+typedef int64_t JsonInteger;
 #endif
 }
 }
