@@ -48,67 +48,6 @@ inline JsonVariant::JsonVariant(JsonObject &object) {
   _content.asObject = &object;
 }
 
-template <>
-String JsonVariant::as<String>() const;
-
-template <>
-const char *JsonVariant::as<const char *>() const;
-
-template <>
-inline bool JsonVariant::as<bool>() const {
-  return asInteger() != 0;
-}
-
-template <>
-inline signed char JsonVariant::as<signed char>() const {
-  return static_cast<signed char>(asInteger());
-}
-
-template <>
-inline unsigned char JsonVariant::as<unsigned char>() const {
-  return static_cast<unsigned char>(asInteger());
-}
-
-template <>
-inline signed short JsonVariant::as<signed short>() const {
-  return static_cast<signed short>(asInteger());
-}
-
-template <>
-inline unsigned short JsonVariant::as<unsigned short>() const {
-  return static_cast<unsigned short>(asInteger());
-}
-
-template <>
-inline signed int JsonVariant::as<signed int>() const {
-  return static_cast<signed int>(asInteger());
-}
-
-template <>
-inline unsigned int JsonVariant::as<unsigned int>() const {
-  return static_cast<unsigned int>(asInteger());
-}
-
-template <>
-inline unsigned long JsonVariant::as<unsigned long>() const {
-  return static_cast<unsigned long>(asInteger());
-}
-
-template <>
-inline signed long JsonVariant::as<signed long>() const {
-  return static_cast<unsigned long>(asInteger());
-}
-
-template <>
-inline double JsonVariant::as<double>() const {
-  return static_cast<double>(asFloat());
-}
-
-template <>
-inline float JsonVariant::as<float>() const {
-  return static_cast<float>(asFloat());
-}
-
 template <typename T>
 inline T JsonVariant::invalid() {
   return T();

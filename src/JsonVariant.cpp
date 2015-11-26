@@ -39,8 +39,7 @@ int parse<int>(const char *s) {
   return atoi(s);
 }
 
-template <>
-const char *JsonVariant::as<const char *>() const {
+const char *JsonVariant::asString() const {
   if (_type == JSON_UNPARSED && _content.asString &&
       !strcmp("null", _content.asString))
     return NULL;
@@ -74,8 +73,7 @@ JsonInteger JsonVariant::asInteger() const {
   return 0L;
 }
 
-template <>
-String JsonVariant::as<String>() const {
+String JsonVariant::toString() const {
   String s;
   if ((_type == JSON_STRING || _type == JSON_UNPARSED) &&
       _content.asString != NULL)

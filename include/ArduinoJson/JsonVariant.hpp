@@ -9,7 +9,9 @@
 #include <stddef.h>
 #include <stdint.h>  // for uint8_t
 
+#include "Internals/EnableIfFloatingPoint.hpp"
 #include "Internals/EnableIfIntegral.hpp"
+#include "Internals/EnableIfSame.hpp"
 #include "Internals/JsonPrintable.hpp"
 #include "Internals/JsonVariantContent.hpp"
 #include "Internals/JsonVariantType.hpp"
@@ -68,7 +70,25 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
   // Get the variant as the specified type.
   // See cast operators for details.
   template <typename T>
-  T as() const;
+  typename Internals::EnableIfIntegral<T>::type as() const {
+    return static_cast<T>(asInteger());
+  }
+  template <typename T>
+  typename Internals::EnableIfFloatingPoint<T>::type as() const {
+    return static_cast<T>(asFloat());
+  }
+  template <typename T>
+  typename Internals::EnableIfSame<T, String>::type as() const {
+    return toString();
+  }
+  template <typename T>
+  typename Internals::EnableIfSame<T, const char *>::type as() const {
+    return asString();
+  }
+  template <typename T>
+  typename Internals::EnableIfSame<T, bool>::type as() const {
+    return asInteger() != 0;
+  }
 
   // Tells weither the variant has the specified type.
   // Returns true if the variant has type type T, false otherwise.
@@ -85,6 +105,8 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
  private:
   Internals::JsonFloat asFloat() const;
   Internals::JsonInteger asInteger() const;
+  const char *asString() const;
+  String toString() const;
 
   // The current type of the variant
   Internals::JsonVariantType _type;
