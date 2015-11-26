@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include <stdint.h>  // for uint8_t
 
+#include "Internals/EnableIfIntegral.hpp"
 #include "Internals/JsonPrintable.hpp"
 #include "Internals/JsonVariantContent.hpp"
 #include "Internals/JsonVariantType.hpp"
@@ -44,14 +45,13 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
   FORCE_INLINE JsonVariant(double value, uint8_t decimals = 2);
 
   // Create a JsonVariant containing an integer value.
-  FORCE_INLINE JsonVariant(signed char value);
-  FORCE_INLINE JsonVariant(signed long value);
-  FORCE_INLINE JsonVariant(signed int value);
-  FORCE_INLINE JsonVariant(signed short value);
-  FORCE_INLINE JsonVariant(unsigned char value);
-  FORCE_INLINE JsonVariant(unsigned long value);
-  FORCE_INLINE JsonVariant(unsigned int value);
-  FORCE_INLINE JsonVariant(unsigned short value);
+  template <typename T>
+  FORCE_INLINE JsonVariant(T value,
+                           typename Internals::EnableIfIntegral<T>::type = 0) {
+    using namespace Internals;
+    _type = JSON_INTEGER;
+    _content.asInteger = static_cast<JsonInteger>(value);
+  }
 
   // Create a JsonVariant containing a string.
   FORCE_INLINE JsonVariant(const char *value);

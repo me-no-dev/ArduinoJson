@@ -48,54 +48,6 @@ inline JsonVariant::JsonVariant(JsonObject &object) {
   _content.asObject = &object;
 }
 
-inline JsonVariant::JsonVariant(signed char value) {
-  using namespace Internals;
-  _type = JSON_INTEGER;
-  _content.asInteger = static_cast<JsonInteger>(value);
-}
-
-inline JsonVariant::JsonVariant(signed int value) {
-  using namespace Internals;
-  _type = JSON_INTEGER;
-  _content.asInteger = static_cast<JsonInteger>(value);
-}
-
-inline JsonVariant::JsonVariant(signed long value) {
-  using namespace Internals;
-  _type = JSON_INTEGER;
-  _content.asInteger = static_cast<JsonInteger>(value);
-}
-
-inline JsonVariant::JsonVariant(signed short value) {
-  using namespace Internals;
-  _type = JSON_INTEGER;
-  _content.asInteger = static_cast<JsonInteger>(value);
-}
-
-inline JsonVariant::JsonVariant(unsigned char value) {
-  using namespace Internals;
-  _type = JSON_INTEGER;
-  _content.asInteger = static_cast<JsonInteger>(value);
-}
-
-inline JsonVariant::JsonVariant(unsigned int value) {
-  using namespace Internals;
-  _type = JSON_INTEGER;
-  _content.asInteger = static_cast<JsonInteger>(value);
-}
-
-inline JsonVariant::JsonVariant(unsigned long value) {
-  using namespace Internals;
-  _type = JSON_INTEGER;
-  _content.asInteger = static_cast<JsonInteger>(value);
-}
-
-inline JsonVariant::JsonVariant(unsigned short value) {
-  using namespace Internals;
-  _type = JSON_INTEGER;
-  _content.asInteger = static_cast<JsonInteger>(value);
-}
-
 template <>
 String JsonVariant::as<String>() const;
 
