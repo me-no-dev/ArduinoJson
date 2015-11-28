@@ -70,24 +70,32 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
   // Get the variant as the specified type.
   // See cast operators for details.
   template <typename T>
-  typename Internals::EnableIfIntegral<T>::type as() const {
+  const typename Internals::EnableIfIntegral<T>::type as() const {
     return static_cast<T>(asInteger());
   }
   template <typename T>
-  typename Internals::EnableIfFloatingPoint<T>::type as() const {
+  const typename Internals::EnableIfFloatingPoint<T>::type as() const {
     return static_cast<T>(asFloat());
   }
   template <typename T>
-  typename Internals::EnableIfSame<T, String>::type as() const {
+  const typename Internals::EnableIfSame<T, String>::type as() const {
     return toString();
   }
   template <typename T>
-  typename Internals::EnableIfSame<T, const char *>::type as() const {
+  const typename Internals::EnableIfSame<T, const char *>::type as() const {
     return asString();
   }
   template <typename T>
-  typename Internals::EnableIfSame<T, bool>::type as() const {
+  const typename Internals::EnableIfSame<T, bool>::type as() const {
     return asInteger() != 0;
+  }
+  template <typename T>
+  typename Internals::EnableIfSame<T, JsonArray &>::type as() const {
+    return asArray();
+  }
+  template <typename T>
+  typename Internals::EnableIfSame<T, JsonObject &>::type as() const {
+    return asObject();
   }
 
   // Tells weither the variant has the specified type.
@@ -102,11 +110,14 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
   template <typename T>
   static T invalid();
 
+  const char *asString() const;
+  JsonArray &asArray() const;
+  JsonObject &asObject() const;
+
  private:
+  String toString() const;
   Internals::JsonFloat asFloat() const;
   Internals::JsonInteger asInteger() const;
-  const char *asString() const;
-  String toString() const;
 
   // The current type of the variant
   Internals::JsonVariantType _type;

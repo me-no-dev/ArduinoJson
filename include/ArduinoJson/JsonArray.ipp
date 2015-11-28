@@ -205,14 +205,7 @@ inline JsonArray const &JsonVariant::invalid<JsonArray const &>() {
   return JsonArray::invalid();
 }
 
-template <>
-inline JsonArray &JsonVariant::as<JsonArray &>() const {
-  if (_type == Internals::JSON_ARRAY) return *_content.asArray;
-  return JsonArray::invalid();
-}
-
-template <>
-inline const JsonArray &JsonVariant::as<const JsonArray &>() const {
+inline JsonArray &JsonVariant::asArray() const {
   if (_type == Internals::JSON_ARRAY) return *_content.asArray;
   return JsonArray::invalid();
 }

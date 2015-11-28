@@ -12,6 +12,11 @@ template <class T, class U>
 struct EnableIfSame {};
 
 template <class T>
+struct EnableIfSame<const T, T> {
+  typedef T type;
+};
+
+template <class T>
 struct EnableIfSame<T, T> {
   typedef T type;
 };

@@ -226,14 +226,7 @@ inline JsonObject &JsonVariant::invalid<JsonObject &>() {
   return JsonObject::invalid();
 }
 
-template <>
-inline JsonObject &JsonVariant::as<JsonObject &>() const {
-  if (_type == Internals::JSON_OBJECT) return *_content.asObject;
-  return JsonObject::invalid();
-}
-
-template <>
-inline const JsonObject &JsonVariant::as<const JsonObject &>() const {
+inline JsonObject &JsonVariant::asObject() const {
   if (_type == Internals::JSON_OBJECT) return *_content.asObject;
   return JsonObject::invalid();
 }
