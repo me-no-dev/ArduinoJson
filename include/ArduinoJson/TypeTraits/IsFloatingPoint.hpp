@@ -7,16 +7,18 @@
 #pragma once
 
 namespace ArduinoJson {
-namespace Internals {
+namespace TypeTraits {
 template <typename T>
-struct EnableIfFloatingPoint {};
-template <>
-struct EnableIfFloatingPoint<float> {
-  typedef float type;
+struct IsFloatingPoint {
+  static const bool value = false;
 };
 template <>
-struct EnableIfFloatingPoint<double> {
-  typedef double type;
+struct IsFloatingPoint<float> {
+  static const bool value = true;
+};
+template <>
+struct IsFloatingPoint<double> {
+  static const bool value = true;
 };
 }
 }

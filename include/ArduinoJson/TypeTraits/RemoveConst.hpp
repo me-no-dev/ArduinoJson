@@ -7,17 +7,13 @@
 #pragma once
 
 namespace ArduinoJson {
-namespace Internals {
-template <class T, class U>
-struct EnableIfSame {};
-
-template <class T>
-struct EnableIfSame<const T, T> {
+namespace TypeTraits {
+template <typename T>
+struct RemoveConst {
   typedef T type;
 };
-
-template <class T>
-struct EnableIfSame<T, T> {
+template <typename T>
+struct RemoveConst<const T> {
   typedef T type;
 };
 }

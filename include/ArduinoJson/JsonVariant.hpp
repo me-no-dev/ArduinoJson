@@ -9,14 +9,17 @@
 #include <stddef.h>
 #include <stdint.h>  // for uint8_t
 
-#include "Internals/EnableIfFloatingPoint.hpp"
-#include "Internals/EnableIfIntegral.hpp"
-#include "Internals/EnableIfSame.hpp"
 #include "Internals/JsonPrintable.hpp"
 #include "Internals/JsonVariantContent.hpp"
 #include "Internals/JsonVariantType.hpp"
 #include "Internals/Unparsed.hpp"
 #include "JsonVariantBase.hpp"
+#include "TypeTraits/EnableIf.hpp"
+#include "TypeTraits/IsFloatingPoint.hpp"
+#include "TypeTraits/IsIntegral.hpp"
+#include "TypeTraits/RemoveConst.hpp"
+#include "TypeTraits/RemoveReference.hpp"
+#include "TypeTraits/IsSame.hpp"
 
 namespace ArduinoJson {
 
@@ -47,9 +50,13 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
   FORCE_INLINE JsonVariant(double value, uint8_t decimals = 2);
 
   // Create a JsonVariant containing an integer value.
+  // JsonVariant(short)
+  // JsonVariant(int)
+  // JsonVariant(long)
   template <typename T>
-  FORCE_INLINE JsonVariant(T value,
-                           typename Internals::EnableIfIntegral<T>::type = 0) {
+  FORCE_INLINE JsonVariant(
+      T value, typename TypeTraits::EnableIf<TypeTraits::IsIntegral<T>::value,
+                                             T>::type * = 0) {
     using namespace Internals;
     _type = JSON_INTEGER;
     _content.asInteger = static_cast<JsonInteger>(value);
@@ -68,33 +75,68 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
   FORCE_INLINE JsonVariant(JsonObject &object);
 
   // Get the variant as the specified type.
-  // See cast operators for details.
+  // short as<short>() const;
+  // int as<int>() const;
+  // long as<long>() const;
   template <typename T>
-  const typename Internals::EnableIfIntegral<T>::type as() const {
+  const typename TypeTraits::EnableIf<TypeTraits::IsIntegral<T>::value, T>::type
+  as() const {
     return static_cast<T>(asInteger());
   }
+  // double as<double>() const;
+  // float as<float>() const;
   template <typename T>
-  const typename Internals::EnableIfFloatingPoint<T>::type as() const {
+  const typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<T>::value,
+                                      T>::type
+  as() const {
     return static_cast<T>(asFloat());
   }
+  // const String as<String>() const;
   template <typename T>
-  const typename Internals::EnableIfSame<T, String>::type as() const {
+  const typename TypeTraits::EnableIf<TypeTraits::IsSame<T, String>::value,
+                                      T>::type
+  as() const {
     return toString();
   }
+  // const char* as<const char*>() const;
+  // const char* as<char*>() const;
   template <typename T>
-  const typename Internals::EnableIfSame<T, const char *>::type as() const {
+  typename TypeTraits::EnableIf<TypeTraits::IsSame<T, const char *>::value,
+                                const char *>::type
+  as() const {
     return asString();
   }
+  // const bool as<bool>() const
   template <typename T>
-  const typename Internals::EnableIfSame<T, bool>::type as() const {
+  const typename TypeTraits::EnableIf<TypeTraits::IsSame<T, bool>::value,
+                                      T>::type
+  as() const {
     return asInteger() != 0;
   }
+  // JsonArray& as<JsonArray> const;
+  // JsonArray& as<JsonArray&> const;
+  // JsonArray& as<const JsonArray&> const;
   template <typename T>
-  typename Internals::EnableIfSame<T, JsonArray &>::type as() const {
+  typename TypeTraits::EnableIf<
+      TypeTraits::IsSame<
+          typename TypeTraits::RemoveConst<
+              typename TypeTraits::RemoveReference<T>::type>::type,
+          JsonArray>::value,
+      JsonArray &>::type
+  as() const {
     return asArray();
   }
+  // JsonObject& as<JsonObject> const;
+  // JsonObject& as<JsonObject&> const;
+  // JsonObject& as<const JsonObject&> const;
   template <typename T>
-  typename Internals::EnableIfSame<T, JsonObject &>::type as() const {
+  typename TypeTraits::EnableIf<
+      TypeTraits::IsSame<
+          typename TypeTraits::RemoveConst<
+              typename TypeTraits::RemoveReference<T>::type>::type,
+          JsonObject>::value,
+      JsonObject &>::type
+  as() const {
     return asObject();
   }
 
