@@ -54,7 +54,7 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   FORCE_INLINE bool add(
       T value,
       typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<T>::value,
-                                    uint8_t>::type digits = 2) {
+                                    uint8_t>::type digits) {
     return addNode<JsonVariant>(JsonVariant(value, digits));
   }
 
@@ -74,27 +74,7 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   // bool add(short);
   // bool add(int);
   // bool add(long);
-  template <typename T>
-  FORCE_INLINE bool add(T value,
-                        typename TypeTraits::EnableIf<
-                            TypeTraits::IsIntegral<T>::value ||
-                                TypeTraits::IsSame<T, bool>::value ||
-                                TypeTraits::IsSame<T, char *>::value ||
-                                TypeTraits::IsSame<T, const char *>::value,
-                            void>::type * = 0) {
-    return addNode<JsonVariant>(value);
-  }
-  template <typename T>
-  FORCE_INLINE bool add(
-      T &value,
-      typename TypeTraits::EnableIf < TypeTraits::IsSame<T, JsonArray>::value ||
-          TypeTraits::IsSame<T, JsonObject>::value ||
-          TypeTraits::IsSame<T, JsonVariant>::value ||
-          TypeTraits::IsSame<T, JsonArraySubscript>::value ||
-          TypeTraits::IsSame<T, JsonObjectSubscript<const char *>>::value ||
-          TypeTraits::IsSame<T, JsonObjectSubscript<String>::value,
-                             void>::type *
-      = 0) {
+  FORCE_INLINE bool add(JsonVariant value) {
     return addNode<JsonVariant>(value);
   }
 
