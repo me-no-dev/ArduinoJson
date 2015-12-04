@@ -48,15 +48,55 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   FORCE_INLINE JsonArraySubscript operator[](size_t index);
 
   // Adds the specified value at the end of the array.
-  FORCE_INLINE bool add(bool value);
-  FORCE_INLINE bool add(float value, uint8_t decimals = 2);
-  FORCE_INLINE bool add(double value, uint8_t decimals = 2);
-  FORCE_INLINE bool add(const char *value);
-  FORCE_INLINE bool add(const String &value);
-  FORCE_INLINE bool add(JsonArray &array);
-  FORCE_INLINE bool add(JsonObject &object);
+  // bool add(float value, uint8_t decimals = 2);
+  // bool add(double value, uint8_t decimals = 2);
   template <typename T>
-  FORCE_INLINE bool add(const T &value);
+  FORCE_INLINE bool add(
+      T value,
+      typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<T>::value,
+                                    uint8_t>::type digits = 2) {
+    return addNode<JsonVariant>(JsonVariant(value, digits));
+  }
+
+  template <typename T>
+  FORCE_INLINE bool add(T &value,
+                        typename TypeTraits::EnableIf<
+                            TypeTraits::IsSame<T, String>::value ||
+                                TypeTraits::IsSame<T, const String>::value,
+                            T>::type * = 0) {
+    if (!_buffer) return false;
+    const char *copy = _buffer->strdup(value);
+    if (!copy) return false;
+    return addNode<const char *>(copy);
+  }
+
+  // bool add(bool);
+  // bool add(short);
+  // bool add(int);
+  // bool add(long);
+  template <typename T>
+  FORCE_INLINE bool add(T value,
+                        typename TypeTraits::EnableIf<
+                            TypeTraits::IsIntegral<T>::value ||
+                                TypeTraits::IsSame<T, bool>::value ||
+                                TypeTraits::IsSame<T, char *>::value ||
+                                TypeTraits::IsSame<T, const char *>::value,
+                            void>::type * = 0) {
+    return addNode<JsonVariant>(value);
+  }
+  template <typename T>
+  FORCE_INLINE bool add(
+      T &value,
+      typename TypeTraits::EnableIf < TypeTraits::IsSame<T, JsonArray>::value ||
+          TypeTraits::IsSame<T, JsonObject>::value ||
+          TypeTraits::IsSame<T, JsonVariant>::value ||
+          TypeTraits::IsSame<T, JsonArraySubscript>::value ||
+          TypeTraits::IsSame<T, JsonObjectSubscript<const char *>>::value ||
+          TypeTraits::IsSame<T, JsonObjectSubscript<String>::value,
+                             void>::type *
+      = 0) {
+    return addNode<JsonVariant>(value);
+  }
 
   // Sets the value at specified index.
   FORCE_INLINE void set(size_t index, bool value);

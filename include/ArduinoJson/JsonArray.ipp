@@ -19,37 +19,6 @@ inline JsonVariant JsonArray::operator[](size_t index) const {
   return get(index);
 }
 
-inline bool JsonArray::add(bool value) { return addNode<bool>(value); }
-
-inline bool JsonArray::add(float value, uint8_t decimals) {
-  return addNode<const JsonVariant &>(JsonVariant(value, decimals));
-}
-
-inline bool JsonArray::add(double value, uint8_t decimals) {
-  return addNode<const JsonVariant &>(JsonVariant(value, decimals));
-}
-
-inline bool JsonArray::add(const char *value) {
-  return addNode<const char *>(value);
-}
-
-inline bool JsonArray::add(const String &value) {
-  return addNode<const String &>(value);
-}
-
-inline bool JsonArray::add(JsonArray &array) {
-  return addNode<JsonArray &>(array);
-}
-
-inline bool JsonArray::add(JsonObject &object) {
-  return addNode<JsonObject &>(object);
-}
-
-template <typename T>
-inline bool JsonArray::add(const T &variant) {
-  return addNode<const JsonVariant &>(variant);
-}
-
 template <typename TValue>
 inline bool JsonArray::addNode(TValue value) {
   node_type *node = addNewNode();
