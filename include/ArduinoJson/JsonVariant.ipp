@@ -26,18 +26,6 @@ inline JsonVariant::JsonVariant(Internals::Unparsed value) {
   _content.asString = value;
 }
 
-inline JsonVariant::JsonVariant(double value, uint8_t decimals) {
-  using namespace Internals;
-  _type = static_cast<JsonVariantType>(JSON_FLOAT_0_DECIMALS + decimals);
-  _content.asFloat = static_cast<JsonFloat>(value);
-}
-
-inline JsonVariant::JsonVariant(float value, uint8_t decimals) {
-  using namespace Internals;
-  _type = static_cast<JsonVariantType>(JSON_FLOAT_0_DECIMALS + decimals);
-  _content.asFloat = static_cast<JsonFloat>(value);
-}
-
 inline JsonVariant::JsonVariant(JsonArray &array) {
   _type = Internals::JSON_ARRAY;
   _content.asArray = &array;

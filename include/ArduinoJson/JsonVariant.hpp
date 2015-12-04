@@ -46,8 +46,17 @@ class JsonVariant : public JsonVariantBase<JsonVariant> {
   // Create a JsonVariant containing a floating point value.
   // The second argument specifies the number of decimal digits to write in
   // the JSON string.
-  FORCE_INLINE JsonVariant(float value, uint8_t decimals = 2);
-  FORCE_INLINE JsonVariant(double value, uint8_t decimals = 2);
+  // JsonVariant(double value, uint8_t decimals);
+  // JsonVariant(float value, uint8_t decimals);
+  template <typename T>
+  FORCE_INLINE JsonVariant(
+      T value, uint8_t decimals = 2,
+      typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<T>::value,
+                                    T>::type * = 0) {
+    using namespace Internals;
+    _type = static_cast<JsonVariantType>(JSON_FLOAT_0_DECIMALS + decimals);
+    _content.asFloat = static_cast<JsonFloat>(value);
+  }
 
   // Create a JsonVariant containing an integer value.
   // JsonVariant(short)
