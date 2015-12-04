@@ -29,38 +29,6 @@ inline bool JsonArray::add(double value, uint8_t decimals) {
   return addNode<const JsonVariant &>(JsonVariant(value, decimals));
 }
 
-inline bool JsonArray::add(signed char value) {
-  return addNode<signed char>(value);
-}
-
-inline bool JsonArray::add(signed long value) {
-  return addNode<signed long>(value);
-}
-
-inline bool JsonArray::add(signed int value) {
-  return addNode<signed int>(value);
-}
-
-inline bool JsonArray::add(signed short value) {
-  return addNode<signed short>(value);
-}
-
-inline bool JsonArray::add(unsigned char value) {
-  return addNode<unsigned char>(value);
-}
-
-inline bool JsonArray::add(unsigned long value) {
-  return addNode<unsigned long>(value);
-}
-
-inline bool JsonArray::add(unsigned int value) {
-  return addNode<unsigned int>(value);
-}
-
-inline bool JsonArray::add(unsigned short value) {
-  return addNode<unsigned short>(value);
-}
-
 inline bool JsonArray::add(const char *value) {
   return addNode<const char *>(value);
 }

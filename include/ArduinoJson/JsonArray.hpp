@@ -51,14 +51,6 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   FORCE_INLINE bool add(bool value);
   FORCE_INLINE bool add(float value, uint8_t decimals = 2);
   FORCE_INLINE bool add(double value, uint8_t decimals = 2);
-  FORCE_INLINE bool add(signed char value);
-  FORCE_INLINE bool add(signed long value);
-  FORCE_INLINE bool add(signed int value);
-  FORCE_INLINE bool add(signed short value);
-  FORCE_INLINE bool add(unsigned char value);
-  FORCE_INLINE bool add(unsigned long value);
-  FORCE_INLINE bool add(unsigned int value);
-  FORCE_INLINE bool add(unsigned short value);
   FORCE_INLINE bool add(const char *value);
   FORCE_INLINE bool add(const String &value);
   FORCE_INLINE bool add(JsonArray &array);
