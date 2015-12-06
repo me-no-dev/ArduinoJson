@@ -196,8 +196,7 @@ struct JsonVariant::IsCompatible {
                             TypeTraits::IsSame<T, char *>::value ||
                             TypeTraits::IsSame<T, const char *>::value ||
                             TypeTraits::IsSame<T, JsonArray &>::value ||
-                            TypeTraits::IsSame<T, JsonObject &>::value ||
-                            TypeTraits::IsSame<T, JsonVariant>::value;
+                            TypeTraits::IsSame<T, JsonObject &>::value;
 };
 }
 
