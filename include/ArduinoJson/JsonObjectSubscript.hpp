@@ -81,6 +81,11 @@ inline std::ostream& operator<<(
   return source.printTo(os);
 }
 #endif
+
+template <typename T>
+struct JsonVariant::IsCompatible<JsonObjectSubscript<T> > {
+  static const bool value = true;
+};
 }  // namespace ArduinoJson
 
 #ifdef _MSC_VER

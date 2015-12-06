@@ -74,8 +74,23 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   // bool add(short);
   // bool add(int);
   // bool add(long);
-  FORCE_INLINE bool add(JsonVariant value) {
-    return addNode<JsonVariant>(value);
+  // bool add(JsonVariant);
+  template <typename T>
+  FORCE_INLINE bool add(
+      T value,
+      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T>::value,
+                                    T>::type * = 0) {
+    return addNode<T>(value);
+  }
+
+  // bool add(JsonArray&);
+  // bool add(JsonObject&);
+  template <typename T>
+  FORCE_INLINE bool add(
+      T &value,
+      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T &>::value,
+                                    T>::type * = 0) {
+    return addNode<T &>(value);
   }
 
   // Sets the value at specified index.
