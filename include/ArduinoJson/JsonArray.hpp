@@ -48,6 +48,19 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   FORCE_INLINE JsonArraySubscript operator[](size_t index);
 
   // Adds the specified value at the end of the array.
+  //
+  // bool add(bool);
+  // bool add(short);
+  // bool add(int);
+  // bool add(long);
+  // bool add(const char*);
+  template <typename T>
+  FORCE_INLINE bool add(
+      T value,
+      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T>::value,
+                                    T>::type * = 0) {
+    return addNode<T>(value);
+  }
   // bool add(float value, uint8_t decimals = 2);
   // bool add(double value, uint8_t decimals = 2);
   template <typename T>
@@ -57,7 +70,7 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
                                     uint8_t>::type digits) {
     return addNode<JsonVariant>(JsonVariant(value, digits));
   }
-
+  // bool add(const String&)
   template <typename T>
   FORCE_INLINE bool add(T &value,
                         typename TypeTraits::EnableIf<
@@ -69,20 +82,7 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
     if (!copy) return false;
     return addNode<const char *>(copy);
   }
-
-  // bool add(bool);
-  // bool add(short);
-  // bool add(int);
-  // bool add(long);
-  template <typename T>
-  FORCE_INLINE bool add(
-      T value,
-      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T>::value,
-                                    T>::type * = 0) {
-    return addNode<T>(value);
-  }
-
-  // bool add(JsonVariant);
+  // bool add(const JsonVariant&);
   template <typename T>
   FORCE_INLINE bool add(
       const T &value,
@@ -90,7 +90,6 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
                                     T>::type * = 0) {
     return addNode<const T &>(value);
   }
-
   // bool add(JsonArray&);
   // bool add(JsonObject&);
   template <typename T>
@@ -102,23 +101,57 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   }
 
   // Sets the value at specified index.
-  FORCE_INLINE void set(size_t index, bool value);
-  FORCE_INLINE void set(size_t index, float value, uint8_t decimals = 2);
-  FORCE_INLINE void set(size_t index, double value, uint8_t decimals = 2);
-  FORCE_INLINE void set(size_t index, signed char value);
-  FORCE_INLINE void set(size_t index, signed long value);
-  FORCE_INLINE void set(size_t index, signed int value);
-  FORCE_INLINE void set(size_t index, signed short value);
-  FORCE_INLINE void set(size_t index, unsigned char value);
-  FORCE_INLINE void set(size_t index, unsigned long value);
-  FORCE_INLINE void set(size_t index, unsigned int value);
-  FORCE_INLINE void set(size_t index, unsigned short value);
-  FORCE_INLINE void set(size_t index, const char *value);
-  FORCE_INLINE void set(size_t index, const String &value);
-  FORCE_INLINE void set(size_t index, JsonArray &array);
-  FORCE_INLINE void set(size_t index, JsonObject &object);
+  //
+  // void set(size_t index, bool value);
+  // void set(size_t index, long value);
+  // void set(size_t index, int value);
+  // void set(size_t index, short value);
   template <typename T>
-  FORCE_INLINE void set(size_t index, const T &value);
+  FORCE_INLINE void set(
+      size_t index, T value,
+      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T>::value,
+                                    T>::type * = 0) {
+    setNodeAt<T>(index, value);
+  }
+  // void set(size_t index, float value, uint8_t decimals = 2);
+  // void set(size_t index, double value, uint8_t decimals = 2);
+  template <typename T>
+  FORCE_INLINE void set(
+      size_t index, T value,
+      typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<T>::value,
+                                    uint8_t>::type digits) {
+    setNodeAt<const JsonVariant &>(index, JsonVariant(value, digits));
+  }
+  // bool set(size_t index, const String&)
+  template <typename T>
+  FORCE_INLINE bool set(size_t index, T &value,
+                        typename TypeTraits::EnableIf<
+                            TypeTraits::IsSame<T, String>::value ||
+                                TypeTraits::IsSame<T, const String>::value,
+                            T>::type * = 0) {
+    if (!_buffer) return false;
+    const char *copy = _buffer->strdup(value);
+    if (!copy) return false;
+    setNodeAt<const char *>(index, copy);
+    return true;
+  }
+  // void set(size_t index, const JsonVariant&);
+  template <typename T>
+  FORCE_INLINE void set(
+      size_t index, const T &value,
+      typename TypeTraits::EnableIf<TypeTraits::IsSame<T, JsonVariant>::value,
+                                    T>::type * = 0) {
+    setNodeAt<const T &>(index, value);
+  }
+  // void set(size_t index, JsonArray&);
+  // void set(size_t index, JsonObject&);
+  template <typename T>
+  FORCE_INLINE void set(
+      size_t index, T &value,
+      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T &>::value,
+                                    T>::type * = 0) {
+    return setNodeAt<T &>(index, value);
+  }
 
   // Gets the value at the specified index.
   FORCE_INLINE JsonVariant get(size_t index) const;
