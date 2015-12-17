@@ -65,10 +65,6 @@ inline JsonObject &JsonObject::createNestedObject(const String &key) {
 inline void JsonObject::remove(JsonObjectKey key) {
   removeNode(getNodeAt(key));
 }
-
-inline bool JsonObject::set(const char *key, bool value) {
-  return setNodeAt<const char *, bool>(key, value);
-}
 inline bool JsonObject::set(const char *key, float value, uint8_t decimals) {
   return setNodeAt<const char *, const JsonVariant &>(
       key, JsonVariant(value, decimals));
@@ -76,33 +72,6 @@ inline bool JsonObject::set(const char *key, float value, uint8_t decimals) {
 inline bool JsonObject::set(const char *key, double value, uint8_t decimals) {
   return setNodeAt<const char *, const JsonVariant &>(
       key, JsonVariant(value, decimals));
-}
-inline bool JsonObject::set(const char *key, signed char value) {
-  return setNodeAt<const char *, signed char>(key, value);
-}
-inline bool JsonObject::set(const char *key, signed long value) {
-  return setNodeAt<const char *, signed long>(key, value);
-}
-inline bool JsonObject::set(const char *key, signed int value) {
-  return setNodeAt<const char *, signed int>(key, value);
-}
-inline bool JsonObject::set(const char *key, signed short value) {
-  return setNodeAt<const char *, signed short>(key, value);
-}
-inline bool JsonObject::set(const char *key, unsigned char value) {
-  return setNodeAt<const char *, unsigned char>(key, value);
-}
-inline bool JsonObject::set(const char *key, unsigned long value) {
-  return setNodeAt<const char *, unsigned long>(key, value);
-}
-inline bool JsonObject::set(const char *key, unsigned int value) {
-  return setNodeAt<const char *, unsigned int>(key, value);
-}
-inline bool JsonObject::set(const char *key, unsigned short value) {
-  return setNodeAt<const char *, unsigned short>(key, value);
-}
-inline bool JsonObject::set(const char *key, const char *value) {
-  return setNodeAt<const char *, const char *>(key, value);
 }
 inline bool JsonObject::set(const char *key, const String &value) {
   return setNodeAt<const char *, const String &>(key, value);
@@ -120,9 +89,6 @@ template <typename T>
 inline bool JsonObject::set(const char *key, const T &value) {
   return setNodeAt<const char *, JsonVariant>(key, value);
 }
-inline bool JsonObject::set(const String &key, bool value) {
-  return setNodeAt<const String &, bool>(key, value);
-}
 inline bool JsonObject::set(const String &key, float value, uint8_t decimals) {
   return setNodeAt<const String &, const JsonVariant &>(
       key, JsonVariant(value, decimals));
@@ -130,33 +96,6 @@ inline bool JsonObject::set(const String &key, float value, uint8_t decimals) {
 inline bool JsonObject::set(const String &key, double value, uint8_t decimals) {
   return setNodeAt<const String &, const JsonVariant &>(
       key, JsonVariant(value, decimals));
-}
-inline bool JsonObject::set(const String &key, signed char value) {
-  return setNodeAt<const String &, signed char>(key, value);
-}
-inline bool JsonObject::set(const String &key, signed long value) {
-  return setNodeAt<const String &, signed long>(key, value);
-}
-inline bool JsonObject::set(const String &key, signed int value) {
-  return setNodeAt<const String &, signed int>(key, value);
-}
-inline bool JsonObject::set(const String &key, signed short value) {
-  return setNodeAt<const String &, signed short>(key, value);
-}
-inline bool JsonObject::set(const String &key, unsigned char value) {
-  return setNodeAt<const String &, unsigned char>(key, value);
-}
-inline bool JsonObject::set(const String &key, unsigned long value) {
-  return setNodeAt<const String &, unsigned long>(key, value);
-}
-inline bool JsonObject::set(const String &key, unsigned int value) {
-  return setNodeAt<const String &, unsigned int>(key, value);
-}
-inline bool JsonObject::set(const String &key, unsigned short value) {
-  return setNodeAt<const String &, unsigned short>(key, value);
-}
-inline bool JsonObject::set(const String &key, const char *value) {
-  return setNodeAt<const String &, const char *>(key, value);
 }
 inline bool JsonObject::set(const String &key, const String &value) {
   return setNodeAt<const String &, const String &>(key, value);

@@ -53,6 +53,8 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   // bool add(short);
   // bool add(int);
   // bool add(long);
+  // bool add(float value);
+  // bool add(double value);
   // bool add(const char*);
   template <typename T>
   FORCE_INLINE bool add(
@@ -61,8 +63,8 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
                                     T>::type * = 0) {
     return addNode<T>(value);
   }
-  // bool add(float value, uint8_t decimals = 2);
-  // bool add(double value, uint8_t decimals = 2);
+  // bool add(float value, uint8_t decimals);
+  // bool add(double value, uint8_t decimals);
   template <typename T>
   FORCE_INLINE bool add(
       T value,

@@ -49,18 +49,26 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
   FORCE_INLINE JsonVariant operator[](JsonObjectKey key) const;
 
   // Sets the specified key with the specified value.
-  FORCE_INLINE bool set(const char* key, bool value);
-  FORCE_INLINE bool set(const char* key, float value, uint8_t decimals = 2);
-  FORCE_INLINE bool set(const char* key, double value, uint8_t decimals = 2);
-  FORCE_INLINE bool set(const char* key, signed char value);
-  FORCE_INLINE bool set(const char* key, signed long value);
-  FORCE_INLINE bool set(const char* key, signed int value);
-  FORCE_INLINE bool set(const char* key, signed short value);
-  FORCE_INLINE bool set(const char* key, unsigned char value);
-  FORCE_INLINE bool set(const char* key, unsigned long value);
-  FORCE_INLINE bool set(const char* key, unsigned int value);
-  FORCE_INLINE bool set(const char* key, unsigned short value);
-  FORCE_INLINE bool set(const char* key, const char* value);
+  // bool set(TKey key, bool value);
+  // bool set(TKey key, char value);
+  // bool set(TKey key, long value);
+  // bool set(TKey key, int value);
+  // bool set(TKey key, short value);
+  // bool set(TKey key, float value);
+  // bool set(TKey key, double value);
+  // bool set(TKey key, const char* value);
+  template <typename TKey, typename TValue>
+  FORCE_INLINE bool set(
+      TKey key, TValue value,
+      typename TypeTraits::EnableIf<
+          TypeTraits::IsSame<TKey, const char*>::value ||
+              TypeTraits::IsSame<TKey, const String&>::value ||
+              JsonVariant::IsCompatible<TValue>::value,
+          void>::type* = 0) {
+    return setNodeAt<TKey, TValue>(key, value);
+  }
+  // bool set(const char* key, float value, uint8_t decimals);
+  // bool set(const char* key, double value, uint8_t decimals);
   FORCE_INLINE bool set(const char* key, const String& value);
   FORCE_INLINE bool set(const char* key, JsonArray& array);
   FORCE_INLINE bool set(const char* key, JsonObject& object);
@@ -68,18 +76,10 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
   template <typename T>
   FORCE_INLINE bool set(const char* key, const T& value);
 
-  FORCE_INLINE bool set(const String& key, bool value);
-  FORCE_INLINE bool set(const String& key, float value, uint8_t decimals = 2);
-  FORCE_INLINE bool set(const String& key, double value, uint8_t decimals = 2);
-  FORCE_INLINE bool set(const String& key, signed char value);
-  FORCE_INLINE bool set(const String& key, signed long value);
-  FORCE_INLINE bool set(const String& key, signed int value);
-  FORCE_INLINE bool set(const String& key, signed short value);
-  FORCE_INLINE bool set(const String& key, unsigned char value);
-  FORCE_INLINE bool set(const String& key, unsigned long value);
-  FORCE_INLINE bool set(const String& key, unsigned int value);
-  FORCE_INLINE bool set(const String& key, unsigned short value);
-  FORCE_INLINE bool set(const String& key, const char* value);
+  FORCE_INLINE bool set(const char* key, float value, uint8_t decimals);
+  FORCE_INLINE bool set(const char* key, double value, uint8_t decimals);
+  FORCE_INLINE bool set(const String& key, float value, uint8_t decimals);
+  FORCE_INLINE bool set(const String& key, double value, uint8_t decimals);
   FORCE_INLINE bool set(const String& key, const String& value);
   FORCE_INLINE bool set(const String& key, JsonArray& array);
   FORCE_INLINE bool set(const String& key, JsonObject& object);
