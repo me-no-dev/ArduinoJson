@@ -65,14 +65,6 @@ inline JsonObject &JsonObject::createNestedObject(const String &key) {
 inline void JsonObject::remove(JsonObjectKey key) {
   removeNode(getNodeAt(key));
 }
-inline bool JsonObject::set(const char *key, float value, uint8_t decimals) {
-  return setNodeAt<const char *, const JsonVariant &>(
-      key, JsonVariant(value, decimals));
-}
-inline bool JsonObject::set(const char *key, double value, uint8_t decimals) {
-  return setNodeAt<const char *, const JsonVariant &>(
-      key, JsonVariant(value, decimals));
-}
 inline bool JsonObject::set(const char *key, const String &value) {
   return setNodeAt<const char *, const String &>(key, value);
 }
@@ -88,14 +80,6 @@ inline bool JsonObject::set(const char *key, const JsonVariant &value) {
 template <typename T>
 inline bool JsonObject::set(const char *key, const T &value) {
   return setNodeAt<const char *, JsonVariant>(key, value);
-}
-inline bool JsonObject::set(const String &key, float value, uint8_t decimals) {
-  return setNodeAt<const String &, const JsonVariant &>(
-      key, JsonVariant(value, decimals));
-}
-inline bool JsonObject::set(const String &key, double value, uint8_t decimals) {
-  return setNodeAt<const String &, const JsonVariant &>(
-      key, JsonVariant(value, decimals));
 }
 inline bool JsonObject::set(const String &key, const String &value) {
   return setNodeAt<const String &, const String &>(key, value);

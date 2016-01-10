@@ -58,17 +58,27 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
   // bool set(TKey key, double value);
   // bool set(TKey key, const char* value);
   template <typename TKey, typename TValue>
-  FORCE_INLINE bool set(
-      TKey key, TValue value,
-      typename TypeTraits::EnableIf<
-          TypeTraits::IsSame<TKey, const char*>::value ||
-              TypeTraits::IsSame<TKey, const String&>::value ||
-              JsonVariant::IsCompatible<TValue>::value,
-          void>::type* = 0) {
+  FORCE_INLINE bool set(TKey key, TValue value,
+                        typename TypeTraits::EnableIf<
+                            (TypeTraits::IsSame<TKey, const char*>::value ||
+                             TypeTraits::IsSame<TKey, const String&>::value) &&
+                                JsonVariant::IsCompatible<TValue>::value,
+                            void>::type* = 0) {
     return setNodeAt<TKey, TValue>(key, value);
   }
   // bool set(const char* key, float value, uint8_t decimals);
   // bool set(const char* key, double value, uint8_t decimals);
+  template <typename TKey, typename TValue>
+  FORCE_INLINE bool set(TKey key, TValue value,
+                        typename TypeTraits::EnableIf<
+                            (TypeTraits::IsSame<TKey, const char*>::value ||
+                             TypeTraits::IsSame<TKey, const String&>::value) &&
+                                TypeTraits::IsFloatingPoint<TValue>::value,
+                            uint8_t>::type decimals) {
+    return setNodeAt<TKey, const JsonVariant&>(key,
+                                               JsonVariant(value, decimals));
+  }
+
   FORCE_INLINE bool set(const char* key, const String& value);
   FORCE_INLINE bool set(const char* key, JsonArray& array);
   FORCE_INLINE bool set(const char* key, JsonObject& object);
@@ -76,10 +86,6 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
   template <typename T>
   FORCE_INLINE bool set(const char* key, const T& value);
 
-  FORCE_INLINE bool set(const char* key, float value, uint8_t decimals);
-  FORCE_INLINE bool set(const char* key, double value, uint8_t decimals);
-  FORCE_INLINE bool set(const String& key, float value, uint8_t decimals);
-  FORCE_INLINE bool set(const String& key, double value, uint8_t decimals);
   FORCE_INLINE bool set(const String& key, const String& value);
   FORCE_INLINE bool set(const String& key, JsonArray& array);
   FORCE_INLINE bool set(const String& key, JsonObject& object);

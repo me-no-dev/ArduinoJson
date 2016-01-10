@@ -50,9 +50,10 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   // Adds the specified value at the end of the array.
   //
   // bool add(bool);
-  // bool add(short);
-  // bool add(int);
+  // bool add(char);
   // bool add(long);
+  // bool add(int);
+  // bool add(short);
   // bool add(float value);
   // bool add(double value);
   // bool add(const char*);
@@ -69,8 +70,8 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   FORCE_INLINE bool add(
       T value,
       typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<T>::value,
-                                    uint8_t>::type digits) {
-    return addNode<JsonVariant>(JsonVariant(value, digits));
+                                    uint8_t>::type decimals) {
+    return addNode<JsonVariant>(JsonVariant(value, decimals));
   }
   // bool add(const String&)
   template <typename T>
@@ -121,8 +122,8 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   FORCE_INLINE void set(
       size_t index, T value,
       typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<T>::value,
-                                    uint8_t>::type digits) {
-    setNodeAt<const JsonVariant &>(index, JsonVariant(value, digits));
+                                    uint8_t>::type decimals) {
+    setNodeAt<const JsonVariant &>(index, JsonVariant(value, decimals));
   }
   // bool set(size_t index, const String&)
   template <typename T>
