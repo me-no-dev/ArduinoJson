@@ -57,26 +57,22 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
   // bool set(TKey key, float value);
   // bool set(TKey key, double value);
   // bool set(TKey key, const char* value);
-  template <typename TKey, typename TValue>
-  FORCE_INLINE bool set(TKey key, TValue value,
-                        typename TypeTraits::EnableIf<
-                            (TypeTraits::IsSame<TKey, const char*>::value ||
-                             TypeTraits::IsSame<TKey, const String&>::value) &&
-                                JsonVariant::IsCompatible<TValue>::value,
-                            void>::type* = 0) {
-    return setNodeAt<TKey, TValue>(key, value);
+  template <typename TValue>
+  FORCE_INLINE bool set(
+      JsonObjectKey key, TValue value,
+      typename TypeTraits::EnableIf<
+
+          JsonVariant::IsCompatible<TValue>::value, void>::type* = 0) {
+    return setNodeAt<TValue>(key, value);
   }
   // bool set(const char* key, float value, uint8_t decimals);
   // bool set(const char* key, double value, uint8_t decimals);
-  template <typename TKey, typename TValue>
-  FORCE_INLINE bool set(TKey key, TValue value,
-                        typename TypeTraits::EnableIf<
-                            (TypeTraits::IsSame<TKey, const char*>::value ||
-                             TypeTraits::IsSame<TKey, const String&>::value) &&
-                                TypeTraits::IsFloatingPoint<TValue>::value,
-                            uint8_t>::type decimals) {
-    return setNodeAt<TKey, const JsonVariant&>(key,
-                                               JsonVariant(value, decimals));
+  template <typename TValue>
+  FORCE_INLINE bool set(
+      JsonObjectKey key, TValue value,
+      typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<TValue>::value,
+                                    uint8_t>::type decimals) {
+    return setNodeAt<const JsonVariant&>(key, JsonVariant(value, decimals));
   }
 
   FORCE_INLINE bool set(const char* key, const String& value);
@@ -106,13 +102,11 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
 
   // Creates and adds a JsonArray.
   // This is a shortcut for JsonBuffer::createArray() and JsonObject::add().
-  FORCE_INLINE JsonArray& createNestedArray(const char* key);
-  FORCE_INLINE JsonArray& createNestedArray(const String& key);
+  /*FORCE_INLINE*/ JsonArray& createNestedArray(JsonObjectKey key);
 
   // Creates and adds a JsonObject.
   // This is a shortcut for JsonBuffer::createObject() and JsonObject::add().
-  FORCE_INLINE JsonObject& createNestedObject(const char* key);
-  FORCE_INLINE JsonObject& createNestedObject(const String& key);
+  /*FORCE_INLINE*/ JsonObject& createNestedObject(JsonObjectKey key);
 
   // Tells weither the specified key is present and associated with a value.
   FORCE_INLINE bool containsKey(JsonObjectKey key) const;
@@ -130,21 +124,15 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
 
  private:
   // Returns the list node that matches the specified key.
-  node_type* getNodeAt(JsonObjectKey key) const;
+  node_type* getNodeAt(const char* key) const;
 
-  node_type* getOrCreateNodeAt(JsonObjectKey key);
-
-  template <typename TKey, typename TValue>
-  FORCE_INLINE bool setNodeAt(TKey key, TValue value);
-
-  template <typename TKey>
-  JsonArray& createArrayAt(TKey key);
-
-  template <typename TKey>
-  JsonObject& createObjectAt(TKey key);
+  node_type* getOrCreateNodeAt(const char* key);
 
   template <typename T>
-  FORCE_INLINE void setNodeKey(node_type*, T key);
+  FORCE_INLINE bool setNodeAt(JsonObjectKey key, T value);
+
+  template <typename T>
+  FORCE_INLINE void setNodeKey(node_type*, JsonObjectKey key);
 
   template <typename T>
   FORCE_INLINE void setNodeValue(node_type*, T value);
