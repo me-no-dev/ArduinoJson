@@ -7,6 +7,7 @@
 #pragma once
 
 #include "JsonArray.hpp"
+#include "JsonObject.hpp"
 #include "JsonArraySubscript.hpp"
 
 namespace ArduinoJson {
@@ -80,5 +81,12 @@ inline JsonArray const &JsonVariant::invalid<JsonArray const &>() {
 inline JsonArray &JsonVariant::asArray() const {
   if (_type == Internals::JSON_ARRAY) return *_content.asArray;
   return JsonArray::invalid();
+}
+
+inline JsonArray &JsonObject::createNestedArray(JsonObjectKey key) {
+  if (!_buffer) return JsonArray::invalid();
+  JsonArray &array = _buffer->createArray();
+  setNodeAt<const JsonVariant &>(key, array);
+  return array;
 }
 }

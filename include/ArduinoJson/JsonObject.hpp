@@ -102,7 +102,7 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
 
   // Creates and adds a JsonArray.
   // This is a shortcut for JsonBuffer::createArray() and JsonObject::add().
-  /*FORCE_INLINE*/ JsonArray& createNestedArray(JsonObjectKey key);
+  FORCE_INLINE JsonArray& createNestedArray(JsonObjectKey key);
 
   // Creates and adds a JsonObject.
   // This is a shortcut for JsonBuffer::createObject() and JsonObject::add().
