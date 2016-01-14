@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "JsonArray.hpp"
 #include "JsonObject.hpp"
 #include "JsonObjectSubscript.hpp"
 
@@ -119,5 +120,12 @@ inline JsonObject &JsonObject::createNestedObject(JsonObjectKey key) {
   JsonObject &array = _buffer->createObject();
   setNodeAt<const JsonVariant &>(key, array);
   return array;
+}
+
+inline JsonObject &JsonArray::createNestedObject() {
+  if (!_buffer) return JsonObject::invalid();
+  JsonObject &object = _buffer->createObject();
+  add(object);
+  return object;
 }
 }

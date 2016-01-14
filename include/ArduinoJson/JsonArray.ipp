@@ -83,6 +83,13 @@ inline JsonArray &JsonVariant::asArray() const {
   return JsonArray::invalid();
 }
 
+inline JsonArray &JsonArray::createNestedArray() {
+  if (!_buffer) return JsonArray::invalid();
+  JsonArray &array = _buffer->createArray();
+  add(array);
+  return array;
+}
+
 inline JsonArray &JsonObject::createNestedArray(JsonObjectKey key) {
   if (!_buffer) return JsonArray::invalid();
   JsonArray &array = _buffer->createArray();
