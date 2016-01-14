@@ -49,38 +49,6 @@ inline bool JsonObject::containsKey(JsonObjectKey key) const {
 inline void JsonObject::remove(JsonObjectKey key) {
   removeNode(getNodeAt(key.value));
 }
-inline bool JsonObject::set(const char *key, const String &value) {
-  return setNodeAt<const String &>(key, value);
-}
-inline bool JsonObject::set(const char *key, JsonArray &array) {
-  return setNodeAt<JsonArray &>(key, array);
-}
-inline bool JsonObject::set(const char *key, JsonObject &object) {
-  return setNodeAt<JsonObject &>(key, object);
-}
-inline bool JsonObject::set(const char *key, const JsonVariant &value) {
-  return setNodeAt<const JsonVariant &>(key, value);
-}
-template <typename T>
-inline bool JsonObject::set(const char *key, const T &value) {
-  return setNodeAt<JsonVariant>(key, value);
-}
-inline bool JsonObject::set(const String &key, const String &value) {
-  return setNodeAt<const String &>(key, value);
-}
-inline bool JsonObject::set(const String &key, JsonArray &array) {
-  return setNodeAt<JsonArray &>(key, array);
-}
-inline bool JsonObject::set(const String &key, JsonObject &object) {
-  return setNodeAt<JsonObject &>(key, object);
-}
-inline bool JsonObject::set(const String &key, const JsonVariant &value) {
-  return setNodeAt<const JsonVariant &>(key, value);
-}
-template <typename T>
-inline bool JsonObject::set(const String &key, const T &value) {
-  return setNodeAt<JsonVariant>(key, value);
-}
 
 template <typename T>
 inline bool JsonObject::setNodeAt(JsonObjectKey key, T value) {
@@ -98,18 +66,25 @@ inline bool JsonObject::setNodeAt(JsonObjectKey key, T value) {
     node->content.key = key.value;
   }
 
-  setNodeValue<T>(node, value);
-  return true;
+  return setNodeValue<T>(node, value);
 }
 
 template <typename TValue>
-inline void JsonObject::setNodeValue(node_type *node, TValue value) {
+inline bool JsonObject::setNodeValue(node_type *node, TValue value) {
   node->content.value = value;
+  return true;
 }
 
 template <>
-inline void JsonObject::setNodeValue(node_type *node, const String &value) {
+inline bool JsonObject::setNodeValue(node_type *node, String &value) {
   node->content.value = _buffer->strdup(value);
+  return node->content.value;
+}
+
+template <>
+inline bool JsonObject::setNodeValue(node_type *node, const String &value) {
+  node->content.value = _buffer->strdup(value);
+  return node->content.value;
 }
 
 template <typename TImplem>
