@@ -83,7 +83,7 @@ inline std::ostream& operator<<(
 #endif
 
 template <typename T>
-struct JsonVariant::IsCompatible<JsonObjectSubscript<T> > {
+struct JsonVariant::IsConstructibleFrom<JsonObjectSubscript<T> > {
   static const bool value = true;
 };
 }  // namespace ArduinoJson

@@ -37,7 +37,7 @@ class JsonObject;
 class JsonVariant : public JsonVariantBase<JsonVariant> {
  public:
   template <typename T>
-  struct IsCompatible;
+  struct IsConstructibleFrom;
 
   // Creates an uninitialized JsonVariant
   FORCE_INLINE JsonVariant() : _type(Internals::JSON_UNDEFINED) {}
@@ -189,14 +189,18 @@ inline JsonVariant double_with_n_digits(double value, uint8_t digits) {
 }
 
 template <typename T>
-struct JsonVariant::IsCompatible {
+struct JsonVariant::IsConstructibleFrom {
   static const bool value = TypeTraits::IsIntegral<T>::value ||
                             TypeTraits::IsFloatingPoint<T>::value ||
                             TypeTraits::IsSame<T, bool>::value ||
                             TypeTraits::IsSame<T, char *>::value ||
                             TypeTraits::IsSame<T, const char *>::value ||
                             TypeTraits::IsSame<T, JsonArray &>::value ||
-                            TypeTraits::IsSame<T, JsonObject &>::value;
+                            TypeTraits::IsSame<T, const JsonArray &>::value ||
+                            TypeTraits::IsSame<T, JsonObject &>::value ||
+                            TypeTraits::IsSame<T, const JsonObject &>::value ||
+                            TypeTraits::IsSame<T, JsonVariant &>::value ||
+                            TypeTraits::IsSame<T, const JsonVariant &>::value;
 };
 }
 

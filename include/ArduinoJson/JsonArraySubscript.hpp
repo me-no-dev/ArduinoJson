@@ -66,7 +66,7 @@ inline std::ostream& operator<<(std::ostream& os,
 #endif
 
 template <>
-struct JsonVariant::IsCompatible<JsonArraySubscript> {
+struct JsonVariant::IsConstructibleFrom<JsonArraySubscript> {
   static const bool value = true;
 };
 

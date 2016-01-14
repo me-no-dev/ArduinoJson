@@ -54,20 +54,18 @@ inline void JsonObject::remove(JsonObjectKey key) {
 template <typename T>
 inline bool JsonObject::setNodeAt(JsonObjectKey key, T value) {
   node_type *node = getNodeAt(key.value);
+  if (!node) node = addNewNode();
+  return node && setNodeKey(node, key) && setNodeValue<T>(node, value);
+}
 
-  if (!node) {
-    node = addNewNode();
-    if (!node) return false;
-  }
-
+inline bool JsonObject::setNodeKey(node_type *node, JsonObjectKey key) {
   if (key.need_copy) {
     node->content.key = _buffer->strdup(key.value);
     if (node->content.key == NULL) return false;
   } else {
     node->content.key = key.value;
   }
-
-  return setNodeValue<T>(node, value);
+  return true;
 }
 
 template <typename TValue>

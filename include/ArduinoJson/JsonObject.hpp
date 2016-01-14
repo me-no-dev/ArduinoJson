@@ -61,33 +61,30 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
   FORCE_INLINE bool set(
       JsonObjectKey key, TValue value,
       typename TypeTraits::EnableIf<
-
-          JsonVariant::IsCompatible<TValue>::value, void>::type* = 0) {
+          JsonVariant::IsConstructibleFrom<TValue>::value, void>::type* = 0) {
     return setNodeAt<TValue>(key, value);
   }
-  // bool set(const char* key, float value, uint8_t decimals);
-  // bool set(const char* key, double value, uint8_t decimals);
+  // bool set(Key, String&);
+  // bool set(Key, JsonArray&);
+  // bool set(Key, JsonObject&);
+  // bool set(Key, JsonVariant&);
+  template <typename T>
+  FORCE_INLINE bool set(JsonObjectKey key, T& value,
+                        typename TypeTraits::EnableIf<
+                            JsonVariant::IsConstructibleFrom<T&>::value ||
+                                TypeTraits::IsSame<T, String>::value ||
+                                TypeTraits::IsSame<T, const String>::value,
+                            T>::type* = 0) {
+    return setNodeAt<T&>(key, value);
+  }
+  // bool set(Key, float value, uint8_t decimals);
+  // bool set(Key, double value, uint8_t decimals);
   template <typename TValue>
   FORCE_INLINE bool set(
       JsonObjectKey key, TValue value,
       typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<TValue>::value,
                                     uint8_t>::type decimals) {
     return setNodeAt<const JsonVariant&>(key, JsonVariant(value, decimals));
-  }
-
-  // bool add(String&);
-  // bool add(JsonArray&);
-  // bool add(JsonObject&);
-  template <typename T>
-  FORCE_INLINE bool set(JsonObjectKey key, T& value,
-                        typename TypeTraits::EnableIf<
-                            JsonVariant::IsCompatible<T&>::value ||
-                                TypeTraits::IsSame<T, String>::value ||
-                                TypeTraits::IsSame<T, const String>::value ||
-                                TypeTraits::IsSame<T, JsonVariant>::value ||
-                                TypeTraits::IsSame<T, const JsonVariant>::value,
-                            T>::type* = 0) {
-    return setNodeAt<T&>(key, value);
   }
 
   // Gets the value associated with the specified key.
@@ -132,8 +129,7 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
   template <typename T>
   FORCE_INLINE bool setNodeAt(JsonObjectKey key, T value);
 
-  template <typename T>
-  FORCE_INLINE void setNodeKey(node_type*, JsonObjectKey key);
+  FORCE_INLINE bool setNodeKey(node_type*, JsonObjectKey key);
 
   template <typename T>
   FORCE_INLINE bool setNodeValue(node_type*, T value);

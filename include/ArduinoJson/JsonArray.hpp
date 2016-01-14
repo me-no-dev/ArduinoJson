@@ -60,7 +60,7 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   template <typename T>
   FORCE_INLINE bool add(
       T value,
-      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T>::value,
+      typename TypeTraits::EnableIf<JsonVariant::IsConstructibleFrom<T>::value,
                                     T>::type * = 0) {
     return addNode<T>(value);
   }
@@ -98,8 +98,8 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   template <typename T>
   FORCE_INLINE bool add(
       T &value,
-      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T &>::value,
-                                    T>::type * = 0) {
+      typename TypeTraits::EnableIf<
+          JsonVariant::IsConstructibleFrom<T &>::value, T>::type * = 0) {
     return addNode<T &>(value);
   }
 
@@ -112,7 +112,7 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   template <typename T>
   FORCE_INLINE void set(
       size_t index, T value,
-      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T>::value,
+      typename TypeTraits::EnableIf<JsonVariant::IsConstructibleFrom<T>::value,
                                     T>::type * = 0) {
     setNodeAt<T>(index, value);
   }
@@ -151,8 +151,8 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   template <typename T>
   FORCE_INLINE void set(
       size_t index, T &value,
-      typename TypeTraits::EnableIf<JsonVariant::IsCompatible<T &>::value,
-                                    T>::type * = 0) {
+      typename TypeTraits::EnableIf<
+          JsonVariant::IsConstructibleFrom<T &>::value, T>::type * = 0) {
     return setNodeAt<T &>(index, value);
   }
 
