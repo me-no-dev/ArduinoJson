@@ -85,22 +85,16 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
     if (!copy) return false;
     return addNode<const char *>(copy);
   }
+
   // bool add(const JsonVariant&);
-  template <typename T>
-  FORCE_INLINE bool add(
-      const T &value,
-      typename TypeTraits::EnableIf<TypeTraits::IsSame<T, JsonVariant>::value,
-                                    T>::type * = 0) {
-    return addNode<const T &>(value);
-  }
   // bool add(JsonArray&);
   // bool add(JsonObject&);
   template <typename T>
   FORCE_INLINE bool add(
-      T &value,
+      const T &value,
       typename TypeTraits::EnableIf<
           JsonVariant::IsConstructibleFrom<T &>::value, T>::type * = 0) {
-    return addNode<T &>(value);
+    return addNode<T &>(const_cast<T &>(value));
   }
 
   // Sets the value at specified index.
@@ -139,21 +133,14 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
     return true;
   }
   // void set(size_t index, const JsonVariant&);
-  template <typename T>
-  FORCE_INLINE void set(
-      size_t index, const T &value,
-      typename TypeTraits::EnableIf<TypeTraits::IsSame<T, JsonVariant>::value,
-                                    T>::type * = 0) {
-    setNodeAt<const T &>(index, value);
-  }
   // void set(size_t index, JsonArray&);
   // void set(size_t index, JsonObject&);
   template <typename T>
   FORCE_INLINE void set(
-      size_t index, T &value,
+      size_t index, const T &value,
       typename TypeTraits::EnableIf<
           JsonVariant::IsConstructibleFrom<T &>::value, T>::type * = 0) {
-    return setNodeAt<T &>(index, value);
+    return setNodeAt<T &>(index, const_cast<T &>(value));
   }
 
   // Gets the value at the specified index.
