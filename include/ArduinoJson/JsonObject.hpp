@@ -107,7 +107,7 @@ class JsonObject : public Internals::JsonPrintable<JsonObject>,
 
   // Creates and adds a JsonObject.
   // This is a shortcut for JsonBuffer::createObject() and JsonObject::add().
-  /*FORCE_INLINE*/ JsonObject& createNestedObject(JsonObjectKey key);
+  FORCE_INLINE JsonObject& createNestedObject(JsonObjectKey key);
 
   // Tells weither the specified key is present and associated with a value.
   FORCE_INLINE bool containsKey(JsonObjectKey key) const;

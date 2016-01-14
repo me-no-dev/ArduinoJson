@@ -113,4 +113,11 @@ inline JsonObject &JsonVariant::asObject() const {
   if (_type == Internals::JSON_OBJECT) return *_content.asObject;
   return JsonObject::invalid();
 }
+
+inline JsonObject &JsonObject::createNestedObject(JsonObjectKey key) {
+  if (!_buffer) return JsonObject::invalid();
+  JsonObject &array = _buffer->createObject();
+  setNodeAt<const JsonVariant &>(key, array);
+  return array;
+}
 }

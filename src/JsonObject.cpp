@@ -17,13 +17,6 @@ using namespace ArduinoJson::Internals;
 
 JsonObject JsonObject::_invalid(NULL);
 
-JsonObject &JsonObject::createNestedObject(JsonObjectKey key) {
-  if (!_buffer) return JsonObject::invalid();
-  JsonObject &array = _buffer->createObject();
-  setNodeAt<const JsonVariant &>(key, array);
-  return array;
-}
-
 JsonObject::node_type *JsonObject::getNodeAt(const char *key) const {
   for (node_type *node = _firstNode; node; node = node->next) {
     if (!strcmp(node->content.key, key)) return node;
