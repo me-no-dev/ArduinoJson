@@ -36,7 +36,12 @@ inline int parse<int>(const char *s) {
 #ifdef ARDUINOJSON_ENABLE_LONG_LONG
 template <>
 inline long long parse<long long>(const char *s) {
+// Visual Studo 2012 didn't have strtoll
+#if defined(_MSC_VER) && _MSC_VER <= 1700
+  return _strtoi64(s, NULL, 10);
+#else
   return strtoll(s, NULL, 10);
+#endif
 }
 #endif
 }
