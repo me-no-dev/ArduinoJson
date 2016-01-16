@@ -40,8 +40,10 @@ inline bool JsonArray::setNodeValue(node_type *node, TValue value) {
 
 template <>
 inline bool JsonArray::setNodeValue(node_type *node, String &value) {
-  node->content = _buffer->strdup(value);
-  return node->content != NULL;
+  const char *copy = _buffer->strdup(value);
+  if (!copy) return false;
+  node->content = copy;
+  return true;
 }
 
 inline JsonVariant JsonArray::get(size_t index) const {
