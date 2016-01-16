@@ -22,6 +22,11 @@ class Print {
   size_t print(double, int = 2);
   size_t print(int);
   size_t print(long);
+
+#ifdef ARDUINOJSON_ENABLE_LONG_LONG
+  size_t print(long long);
+#endif
+
   size_t println();
 };
 

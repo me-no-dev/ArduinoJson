@@ -16,29 +16,6 @@ using namespace ArduinoJson::Internals;
 
 namespace ArduinoJson {
 
-template <typename TFloat>
-static TFloat parse(const char *);
-
-template <>
-float parse<float>(const char *s) {
-  return static_cast<float>(strtod(s, NULL));
-}
-
-template <>
-double parse<double>(const char *s) {
-  return strtod(s, NULL);
-}
-
-template <>
-long parse<long>(const char *s) {
-  return strtol(s, NULL, 10);
-}
-
-template <>
-int parse<int>(const char *s) {
-  return atoi(s);
-}
-
 const char *JsonVariant::asString() const {
   if (_type == JSON_UNPARSED && _content.asString &&
       !strcmp("null", _content.asString))
@@ -57,20 +34,6 @@ JsonFloat JsonVariant::asFloat() const {
     return parse<JsonFloat>(_content.asString);
 
   return 0.0;
-}
-
-JsonInteger JsonVariant::asInteger() const {
-  if (_type == JSON_INTEGER || _type == JSON_BOOLEAN) return _content.asInteger;
-
-  if (_type >= JSON_FLOAT_0_DECIMALS)
-    return static_cast<JsonInteger>(_content.asFloat);
-
-  if ((_type == JSON_STRING || _type == JSON_UNPARSED) && _content.asString) {
-    if (!strcmp("true", _content.asString)) return 1;
-    return parse<JsonInteger>(_content.asString);
-  }
-
-  return 0L;
 }
 
 String JsonVariant::toString() const {

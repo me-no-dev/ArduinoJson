@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <stdint.h>
+
 namespace ArduinoJson {
 namespace TypeTraits {
 template <typename T>
@@ -48,5 +50,16 @@ template <>
 struct IsIntegral<unsigned long> {
   static const bool value = true;
 };
+
+#ifdef ARDUINOJSON_ENABLE_LONG_LONG
+template <>
+struct IsIntegral<long long> {
+  static const bool value = true;
+};
+template <>
+struct IsIntegral<unsigned long long> {
+  static const bool value = true;
+};
+#endif
 }
 }

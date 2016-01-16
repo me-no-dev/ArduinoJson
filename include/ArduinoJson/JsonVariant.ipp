@@ -7,6 +7,9 @@
 #pragma once
 
 #include "JsonVariant.hpp"
+#include "Internals/Parse.hpp"
+
+#include <string.h>
 
 namespace ArduinoJson {
 
@@ -120,6 +123,22 @@ inline bool JsonVariant::is<unsigned long>() const {
 template <>
 inline bool JsonVariant::is<unsigned short>() const {
   return is<signed long>();
+}
+
+inline Internals::JsonInteger JsonVariant::asInteger() const {
+  if (_type == Internals::JSON_INTEGER || _type == Internals::JSON_BOOLEAN)
+    return _content.asInteger;
+
+  if (_type >= Internals::JSON_FLOAT_0_DECIMALS)
+    return static_cast<Internals::JsonInteger>(_content.asFloat);
+
+  if ((_type == Internals::JSON_STRING || _type == Internals::JSON_UNPARSED) &&
+      _content.asString) {
+    if (!strcmp("true", _content.asString)) return 1;
+    return Internals::parse<Internals::JsonInteger>(_content.asString);
+  }
+
+  return 0L;
 }
 
 #ifdef ARDUINOJSON_ENABLE_STD_STREAM

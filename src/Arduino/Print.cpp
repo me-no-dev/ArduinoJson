@@ -54,6 +54,14 @@ size_t Print::print(double value, int digits) {
   return print(tmp);
 }
 
+#ifdef ARDUINOJSON_ENABLE_LONG_LONG
+size_t Print::print(long long value) {
+  char tmp[32];
+  sprintf(tmp, "%lld", value);
+  return print(tmp);
+}
+#endif
+
 size_t Print::print(long value) {
   char tmp[32];
   sprintf(tmp, "%ld", value);
