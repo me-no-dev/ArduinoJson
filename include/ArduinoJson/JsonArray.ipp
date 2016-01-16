@@ -23,26 +23,25 @@ inline JsonVariant JsonArray::operator[](size_t index) const {
 template <typename TValue>
 inline bool JsonArray::addNode(TValue value) {
   node_type *node = addNewNode();
-  if (node == NULL) return false;
-  setNodeValue<TValue>(node, value);
+  return node != NULL && setNodeValue<TValue>(node, value);
+}
+
+template <typename TValue>
+inline bool JsonArray::setNodeAt(size_t index, TValue value) {
+  node_type *node = getNodeAt(index);
+  return node != NULL && setNodeValue<TValue>(node, value);
+}
+
+template <typename TValue>
+inline bool JsonArray::setNodeValue(node_type *node, TValue value) {
+  node->content = value;
   return true;
 }
 
-template <typename TValue>
-inline void JsonArray::setNodeAt(size_t index, TValue value) {
-  node_type *node = getNodeAt(index);
-  if (node == NULL) return;
-  setNodeValue<TValue>(node, value);
-}
-
-template <typename TValue>
-inline void JsonArray::setNodeValue(node_type *node, TValue value) {
-  node->content = value;
-}
-
 template <>
-inline void JsonArray::setNodeValue(node_type *node, const String &value) {
+inline bool JsonArray::setNodeValue(node_type *node, String &value) {
   node->content = _buffer->strdup(value);
+  return node->content != NULL;
 }
 
 inline JsonVariant JsonArray::get(size_t index) const {

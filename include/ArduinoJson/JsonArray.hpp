@@ -73,73 +73,52 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
                                     uint8_t>::type decimals) {
     return addNode<JsonVariant>(JsonVariant(value, decimals));
   }
-  // bool add(const String&)
-  template <typename T>
-  FORCE_INLINE bool add(T &value,
-                        typename TypeTraits::EnableIf<
-                            TypeTraits::IsSame<T, String>::value ||
-                                TypeTraits::IsSame<T, const String>::value,
-                            T>::type * = 0) {
-    if (!_buffer) return false;
-    const char *copy = _buffer->strdup(value);
-    if (!copy) return false;
-    return addNode<const char *>(copy);
-  }
 
+  // bool add(const String&)
   // bool add(const JsonVariant&);
   // bool add(JsonArray&);
   // bool add(JsonObject&);
   template <typename T>
-  FORCE_INLINE bool add(
-      const T &value,
-      typename TypeTraits::EnableIf<
-          JsonVariant::IsConstructibleFrom<T &>::value, T>::type * = 0) {
+  FORCE_INLINE bool add(const T &value,
+                        typename TypeTraits::EnableIf<
+                            JsonVariant::IsConstructibleFrom<T &>::value ||
+                                TypeTraits::IsSame<T, String>::value,
+                            T>::type * = 0) {
     return addNode<T &>(const_cast<T &>(value));
   }
 
   // Sets the value at specified index.
   //
-  // void set(size_t index, bool value);
-  // void set(size_t index, long value);
-  // void set(size_t index, int value);
-  // void set(size_t index, short value);
+  // bool set(size_t index, bool value);
+  // bool set(size_t index, long value);
+  // bool set(size_t index, int value);
+  // bool set(size_t index, short value);
   template <typename T>
-  FORCE_INLINE void set(
+  FORCE_INLINE bool set(
       size_t index, T value,
       typename TypeTraits::EnableIf<JsonVariant::IsConstructibleFrom<T>::value,
                                     T>::type * = 0) {
-    setNodeAt<T>(index, value);
+    return setNodeAt<T>(index, value);
   }
-  // void set(size_t index, float value, uint8_t decimals = 2);
-  // void set(size_t index, double value, uint8_t decimals = 2);
+  // bool set(size_t index, float value, uint8_t decimals = 2);
+  // bool set(size_t index, double value, uint8_t decimals = 2);
   template <typename T>
-  FORCE_INLINE void set(
+  FORCE_INLINE bool set(
       size_t index, T value,
       typename TypeTraits::EnableIf<TypeTraits::IsFloatingPoint<T>::value,
                                     uint8_t>::type decimals) {
-    setNodeAt<const JsonVariant &>(index, JsonVariant(value, decimals));
+    return setNodeAt<const JsonVariant &>(index, JsonVariant(value, decimals));
   }
   // bool set(size_t index, const String&)
+  // bool set(size_t index, const JsonVariant&);
+  // bool set(size_t index, JsonArray&);
+  // bool set(size_t index, JsonObject&);
   template <typename T>
-  FORCE_INLINE bool set(size_t index, T &value,
+  FORCE_INLINE bool set(size_t index, const T &value,
                         typename TypeTraits::EnableIf<
-                            TypeTraits::IsSame<T, String>::value ||
-                                TypeTraits::IsSame<T, const String>::value,
+                            JsonVariant::IsConstructibleFrom<T &>::value ||
+                                TypeTraits::IsSame<T, String>::value,
                             T>::type * = 0) {
-    if (!_buffer) return false;
-    const char *copy = _buffer->strdup(value);
-    if (!copy) return false;
-    setNodeAt<const char *>(index, copy);
-    return true;
-  }
-  // void set(size_t index, const JsonVariant&);
-  // void set(size_t index, JsonArray&);
-  // void set(size_t index, JsonObject&);
-  template <typename T>
-  FORCE_INLINE void set(
-      size_t index, const T &value,
-      typename TypeTraits::EnableIf<
-          JsonVariant::IsConstructibleFrom<T &>::value, T>::type * = 0) {
     return setNodeAt<T &>(index, const_cast<T &>(value));
   }
 
@@ -177,13 +156,13 @@ class JsonArray : public Internals::JsonPrintable<JsonArray>,
   node_type *getNodeAt(size_t index) const;
 
   template <typename TValue>
-  void setNodeAt(size_t index, TValue value);
+  bool setNodeAt(size_t index, TValue value);
 
   template <typename TValue>
   bool addNode(TValue);
 
   template <typename T>
-  FORCE_INLINE void setNodeValue(node_type *, T value);
+  FORCE_INLINE bool setNodeValue(node_type *, T value);
 
   // The instance returned by JsonArray::invalid()
   static JsonArray _invalid;
