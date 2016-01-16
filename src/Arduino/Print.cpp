@@ -17,11 +17,12 @@
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
 #endif
 
-// Visual Studo 2012 didn't have isnan, nor isinf
+// Visual Studo 2012 didn't have isnan, nor isinf, not strtoll
 #if defined(_MSC_VER) && _MSC_VER <= 1700
 #include <float.h>
 #define isnan(x) _isnan(x)
 #define isinf(x) (!_finite(x))
+#define strtoll _strtoi64
 #endif
 
 size_t Print::print(const char s[]) {
