@@ -8,8 +8,11 @@
 
 #ifndef ARDUINO
 
+#include "../Internals/CompilerFeatures.hpp"
+
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>  // for sprintf()
 
 // This class reproduces Arduino's Print class
 class Print {
@@ -23,8 +26,12 @@ class Print {
   size_t print(int);
   size_t print(long);
 
-#ifdef ARDUINOJSON_ENABLE_LONG_LONG
-  size_t print(long long);
+#ifdef ARDUINOJSON_COMPILER_SUPPORTS_LONG_LONG
+  size_t print(long long value) {
+    char tmp[32];
+    sprintf(tmp, "%lld", value);
+    return print(tmp);
+  }
 #endif
 
   size_t println();

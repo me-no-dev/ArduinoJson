@@ -6,9 +6,11 @@
 
 #pragma once
 
+#include "CompilerFeatures.hpp"
+
 namespace ArduinoJson {
 namespace Internals {
-#ifdef ARDUINOJSON_ENABLE_LONG_LONG
+#ifdef ARDUINOJSON_COMPILER_SUPPORTS_LONG_LONG
 typedef long long JsonInteger;
 #else
 typedef long JsonInteger;

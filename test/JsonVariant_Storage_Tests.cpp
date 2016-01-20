@@ -8,7 +8,6 @@
 #include <limits>
 #include <gtest/gtest.h>
 
-#define ARDUINOJSON_ENABLE_LONG_LONG
 #include <ArduinoJson.h>
 
 class JsonVariant_Storage_Tests : public ::testing::Test {
@@ -62,11 +61,16 @@ TEST_F(JsonVariant_Storage_Tests, UShort) { testNumericType<unsigned short>(); }
 TEST_F(JsonVariant_Storage_Tests, Int8) { testNumericType<int8_t>(); }
 TEST_F(JsonVariant_Storage_Tests, Int16) { testNumericType<int16_t>(); }
 TEST_F(JsonVariant_Storage_Tests, Int32) { testNumericType<int32_t>(); }
-TEST_F(JsonVariant_Storage_Tests, Int64) { testNumericType<int64_t>(); }
 TEST_F(JsonVariant_Storage_Tests, Uint8) { testNumericType<uint8_t>(); }
 TEST_F(JsonVariant_Storage_Tests, Uint16) { testNumericType<uint16_t>(); }
 TEST_F(JsonVariant_Storage_Tests, Uint32) { testNumericType<uint32_t>(); }
+
+#ifdef ARDUINOJSON_COMPILER_SUPPORTS_LONG_LONG
+TEST_F(JsonVariant_Storage_Tests, Int64) { testNumericType<int64_t>(); }
 TEST_F(JsonVariant_Storage_Tests, Uint64) { testNumericType<uint64_t>(); }
+#else
+#pragma message("warning : long long are not supported by the compiler")
+#endif
 
 TEST_F(JsonVariant_Storage_Tests, CanStoreObject) {
   DynamicJsonBuffer jsonBuffer;

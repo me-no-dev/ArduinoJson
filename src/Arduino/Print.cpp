@@ -8,8 +8,7 @@
 
 #include "../../include/ArduinoJson/Arduino/Print.hpp"
 
-#include <math.h>   // for isnan() and isinf()
-#include <stdio.h>  // for sprintf()
+#include <math.h>  // for isnan() and isinf()
 
 // only for GCC 4.9+
 #if defined(__GNUC__) && \
@@ -53,14 +52,6 @@ size_t Print::print(double value, int digits) {
 
   return print(tmp);
 }
-
-#ifdef ARDUINOJSON_ENABLE_LONG_LONG
-size_t Print::print(long long value) {
-  char tmp[32];
-  sprintf(tmp, "%lld", value);
-  return print(tmp);
-}
-#endif
 
 size_t Print::print(long value) {
   char tmp[32];

@@ -51,7 +51,7 @@ struct IsIntegral<unsigned long> {
   static const bool value = true;
 };
 
-#ifdef ARDUINOJSON_ENABLE_LONG_LONG
+#ifdef ARDUINOJSON_COMPILER_SUPPORTS_LONG_LONG
 template <>
 struct IsIntegral<long long> {
   static const bool value = true;
