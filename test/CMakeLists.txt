@@ -18,9 +18,6 @@ add_executable(ArduinoJsonTests
     ${GTEST_DIR}/src/gtest-all.cc
     ${GTEST_DIR}/src/gtest_main.cc)
 
-if (${CMAKE_CXX_COMPILER_ID} MATCHES (GNU|Clang))
-  	target_compile_options(ArduinoJsonTests -std=c++11)
-endif()
 
 target_link_libraries(ArduinoJsonTests ArduinoJson)
 

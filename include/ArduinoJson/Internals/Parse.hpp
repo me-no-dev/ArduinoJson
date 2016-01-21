@@ -6,8 +6,6 @@
 
 #pragma once
 
-#include "CompilerFeatures.hpp"
-
 #include <stdlib.h>
 
 namespace ArduinoJson {
@@ -35,9 +33,9 @@ inline int parse<int>(const char *s) {
   return atoi(s);
 }
 
-#ifdef ARDUINOJSON_COMPILER_SUPPORTS_LONG_LONG
+#ifndef ARDUINO
 template <>
-inline long long parse<long long>(const char *s) {
+inline int64_t parse<int64_t>(const char *s) {
 // Visual Studo 2012 didn't have strtoll
 #if defined(_MSC_VER) && _MSC_VER <= 1700
   return _strtoi64(s, NULL, 10);

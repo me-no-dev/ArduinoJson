@@ -8,8 +8,7 @@
 
 #ifndef ARDUINO
 
-#include "../Internals/CompilerFeatures.hpp"
-
+#include <inttypes.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>  // for sprintf()
@@ -26,10 +25,11 @@ class Print {
   size_t print(int);
   size_t print(long);
 
-#ifdef ARDUINOJSON_COMPILER_SUPPORTS_LONG_LONG
-  size_t print(long long value) {
+#ifndef ARDUINO
+  // on a computer, add support for 64 bit
+  size_t print(int64_t value) {
     char tmp[32];
-    sprintf(tmp, "%lld", value);
+    sprintf(tmp, "%" PRId64, value);
     return print(tmp);
   }
 #endif

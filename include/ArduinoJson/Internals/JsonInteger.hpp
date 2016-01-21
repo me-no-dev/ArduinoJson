@@ -6,14 +6,17 @@
 
 #pragma once
 
-#include "CompilerFeatures.hpp"
+#include <stdint.h>
 
 namespace ArduinoJson {
 namespace Internals {
-#ifdef ARDUINOJSON_COMPILER_SUPPORTS_LONG_LONG
-typedef long long JsonInteger;
-#else
+
+#ifdef ARDUINO
+// on an embedded system, choose what the compiler think is a long
 typedef long JsonInteger;
+#else
+// on a computer, force 64 bit
+typedef int64_t JsonInteger;
 #endif
 }
 }

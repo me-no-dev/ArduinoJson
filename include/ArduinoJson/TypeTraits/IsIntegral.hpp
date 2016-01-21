@@ -51,13 +51,14 @@ struct IsIntegral<unsigned long> {
   static const bool value = true;
 };
 
-#ifdef ARDUINOJSON_COMPILER_SUPPORTS_LONG_LONG
+#ifndef ARDUINO
+// on a computer add support for 64 bit
 template <>
-struct IsIntegral<long long> {
+struct IsIntegral<int64_t> {
   static const bool value = true;
 };
 template <>
-struct IsIntegral<unsigned long long> {
+struct IsIntegral<uint64_t> {
   static const bool value = true;
 };
 #endif
