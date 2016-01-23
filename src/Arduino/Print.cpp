@@ -8,6 +8,7 @@
 
 #include "../../include/ArduinoJson/Arduino/Print.hpp"
 
+#include <stdio.h>
 #include <math.h>  // for isnan() and isinf()
 
 // only for GCC 4.9+
@@ -50,18 +51,6 @@ size_t Print::print(double value, int digits) {
     sprintf(tmp, "%.*f", digits, value);
   }
 
-  return print(tmp);
-}
-
-size_t Print::print(long value) {
-  char tmp[32];
-  sprintf(tmp, "%ld", value);
-  return print(tmp);
-}
-
-size_t Print::print(int value) {
-  char tmp[32];
-  sprintf(tmp, "%d", value);
   return print(tmp);
 }
 
