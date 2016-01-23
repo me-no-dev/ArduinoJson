@@ -135,6 +135,16 @@ TEST(JsonVariant_As_Tests, NumberStringAsLong) {
   ASSERT_EQ(42L, variant.as<long>());
 }
 
+TEST(JsonVariant_As_Tests, NumberStringAsInt64Negative) {
+  JsonVariant variant = "-9223372036854775808";
+  ASSERT_EQ(-9223372036854775807 - 1, variant.as<std::int64_t>());
+}
+
+TEST(JsonVariant_As_Tests, NumberStringAsInt64Positive) {
+  JsonVariant variant = "9223372036854775807";
+  ASSERT_EQ(9223372036854775807, variant.as<std::int64_t>());
+}
+
 TEST(JsonVariant_As_Tests, RandomStringAsBool) {
   JsonVariant variant = "hello";
   ASSERT_FALSE(variant.as<bool>());
