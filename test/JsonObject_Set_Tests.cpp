@@ -5,7 +5,6 @@
 // https://github.com/bblanchon/ArduinoJson
 
 #include <gtest/gtest.h>
-#define ARDUINOJSON_ENABLE_STD_STREAM
 #include <ArduinoJson.h>
 
 class JsonObject_Set_Tests : public ::testing::Test {

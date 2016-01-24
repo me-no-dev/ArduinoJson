@@ -6,7 +6,6 @@
 
 #include <gtest/gtest.h>
 #include <limits.h>  // for LONG_MAX
-#define ARDUINOJSON_ENABLE_STD_STREAM
 #include <ArduinoJson.h>
 
 #define SUITE Issue90

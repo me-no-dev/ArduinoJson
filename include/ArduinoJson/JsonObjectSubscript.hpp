@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "Configuration.hpp"
 #include "JsonSubscriptBase.hpp"
 
 #ifdef _MSC_VER
@@ -70,7 +71,7 @@ class JsonObjectSubscript
   TKey _key;
 };
 
-#ifdef ARDUINOJSON_ENABLE_STD_STREAM
+#if ARDUINOJSON_ENABLE_STD_STREAM
 inline std::ostream& operator<<(
     std::ostream& os, const JsonObjectSubscript<const String&>& source) {
   return source.printTo(os);

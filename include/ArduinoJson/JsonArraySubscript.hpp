@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "Configuration.hpp"
 #include "JsonSubscriptBase.hpp"
 
 #ifdef _MSC_VER
@@ -58,7 +59,7 @@ class JsonArraySubscript : public JsonSubscriptBase<JsonArraySubscript> {
   const size_t _index;
 };
 
-#ifdef ARDUINOJSON_ENABLE_STD_STREAM
+#if ARDUINOJSON_ENABLE_STD_STREAM
 inline std::ostream& operator<<(std::ostream& os,
                                 const JsonArraySubscript& source) {
   return source.printTo(os);

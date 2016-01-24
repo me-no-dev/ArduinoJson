@@ -5,7 +5,6 @@
 // https://github.com/bblanchon/ArduinoJson
 
 #include <gtest/gtest.h>
-#define ARDUINOJSON_ENABLE_STD_STREAM
 #include <ArduinoJson.h>
 
 static const char* null = 0;

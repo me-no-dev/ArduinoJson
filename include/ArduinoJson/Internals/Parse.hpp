@@ -33,15 +33,17 @@ inline int parse<int>(const char *s) {
   return atoi(s);
 }
 
-#ifndef ARDUINO
+#if ARDUINOJSON_USE_LONG_LONG
 template <>
-inline int64_t parse<int64_t>(const char *s) {
-// Visual Studo 2012 didn't have strtoll
-#if defined(_MSC_VER) && _MSC_VER <= 1700
-  return _strtoi64(s, NULL, 10);
-#else
+inline long long parse<long long>(const char *s) {
   return strtoll(s, NULL, 10);
+}
 #endif
+
+#if ARDUINOJSON_USE_INT64
+template <>
+inline __int64 parse<__int64>(const char *s) {
+  return _strtoi64(s, NULL, 10);
 }
 #endif
 }

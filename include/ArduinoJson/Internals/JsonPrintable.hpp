@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "../Configuration.hpp"
 #include "DummyPrint.hpp"
 #include "IndentedPrint.hpp"
 #include "JsonWriter.hpp"
@@ -13,7 +14,7 @@
 #include "StaticStringBuilder.hpp"
 #include "DynamicStringBuilder.hpp"
 
-#ifdef ARDUINOJSON_ENABLE_STD_STREAM
+#if ARDUINOJSON_ENABLE_STD_STREAM
 #include "StreamPrintAdapter.hpp"
 #endif
 
@@ -33,7 +34,7 @@ class JsonPrintable {
     return writer.bytesWritten();
   }
 
-#ifdef ARDUINOJSON_ENABLE_STD_STREAM
+#if ARDUINOJSON_ENABLE_STD_STREAM
   std::ostream &printTo(std::ostream &os) const {
     StreamPrintAdapter adapter(os);
     printTo(adapter);
@@ -85,7 +86,7 @@ class JsonPrintable {
   const T &downcast() const { return *static_cast<const T *>(this); }
 };
 
-#ifdef ARDUINOJSON_ENABLE_STD_STREAM
+#if ARDUINOJSON_ENABLE_STD_STREAM
 template <typename T>
 inline std::ostream &operator<<(std::ostream &os, const JsonPrintable<T> &v) {
   return v.printTo(os);

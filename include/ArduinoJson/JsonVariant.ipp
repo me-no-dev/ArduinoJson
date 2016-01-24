@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "Configuration.hpp"
 #include "JsonVariant.hpp"
 #include "Internals/Parse.hpp"
 
@@ -141,7 +142,7 @@ inline Internals::JsonInteger JsonVariant::asInteger() const {
   return 0L;
 }
 
-#ifdef ARDUINOJSON_ENABLE_STD_STREAM
+#if ARDUINOJSON_ENABLE_STD_STREAM
 inline std::ostream &operator<<(std::ostream &os, const JsonVariant &source) {
   return source.printTo(os);
 }
