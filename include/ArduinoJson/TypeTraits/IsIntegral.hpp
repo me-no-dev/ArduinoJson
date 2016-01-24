@@ -6,61 +6,28 @@
 
 #pragma once
 
+#include "IsSame.hpp"
+
 #include <stdint.h>
 
 namespace ArduinoJson {
 namespace TypeTraits {
 template <typename T>
 struct IsIntegral {
-  static const bool value = false;
-};
-template <>
-struct IsIntegral<char> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<signed char> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<signed short> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<signed int> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<signed long> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<unsigned char> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<unsigned short> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<unsigned int> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<unsigned long> {
-  static const bool value = true;
-};
-
+  static const bool value = TypeTraits::IsSame<T, signed char>::value ||
+                            TypeTraits::IsSame<T, unsigned char>::value ||
+                            TypeTraits::IsSame<T, signed short>::value ||
+                            TypeTraits::IsSame<T, unsigned short>::value ||
+                            TypeTraits::IsSame<T, signed int>::value ||
+                            TypeTraits::IsSame<T, unsigned int>::value ||
+                            TypeTraits::IsSame<T, signed long>::value ||
+                            TypeTraits::IsSame<T, unsigned long>::value ||
 #ifndef ARDUINO
-// on a computer add support for 64 bit
-template <>
-struct IsIntegral<int64_t> {
-  static const bool value = true;
-};
-template <>
-struct IsIntegral<uint64_t> {
-  static const bool value = true;
-};
+                            // on a computer add support for 64 bit
+                            TypeTraits::IsSame<T, int64_t>::value ||
+                            TypeTraits::IsSame<T, uint64_t>::value ||
 #endif
+                            TypeTraits::IsSame<T, char>::value;
+};
 }
 }
