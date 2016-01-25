@@ -40,7 +40,7 @@ class Print {
     do {
       TIntegral digit = value % 10;
       value /= 10;
-      buffer[i++] = '0' + static_cast<int8_t>(digit >= 0 ? digit : -digit);
+      buffer[i++] = static_cast<char>(digit >= 0 ? '0' + digit : '0' - digit);
     } while (value);
 
     while (i > 0) {
