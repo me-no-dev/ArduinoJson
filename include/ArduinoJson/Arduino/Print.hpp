@@ -38,7 +38,7 @@ class Print {
     }
     uint8_t i = 0;
     do {
-      int8_t digit = value % 10;
+      int8_t digit = static_cast<int8_t>(value % 10);
       if (digit < 0) digit = -digit;
       buffer[i++] = '0' + digit;
       value /= 10;
