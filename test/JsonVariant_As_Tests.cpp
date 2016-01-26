@@ -7,6 +7,8 @@
 #include <gtest/gtest.h>
 #include <ArduinoJson.h>
 
+#include <cstdint>
+
 static const char* null = 0;
 
 TEST(JsonVariant_As_Tests, DoubleAsBool) {
