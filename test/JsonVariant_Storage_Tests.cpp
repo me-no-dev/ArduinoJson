@@ -7,8 +7,6 @@
 #include <stdint.h>
 #include <limits>
 #include <gtest/gtest.h>
-
-#define ARDUINOJSON_USE_LONG_LONG 1
 #include <ArduinoJson.h>
 
 class JsonVariant_Storage_Tests : public ::testing::Test {
