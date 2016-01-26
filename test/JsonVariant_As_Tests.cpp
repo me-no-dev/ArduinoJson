@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 #include <ArduinoJson.h>
 
-#include <cstdint>
+#include <stdint.h>
 
 static const char* null = 0;
 
@@ -138,12 +138,12 @@ TEST(JsonVariant_As_Tests, NumberStringAsLong) {
 
 TEST(JsonVariant_As_Tests, NumberStringAsInt64Negative) {
   JsonVariant variant = "-9223372036854775808";
-  ASSERT_EQ(-9223372036854775807 - 1, variant.as<std::int64_t>());
+  ASSERT_EQ(-9223372036854775807 - 1, variant.as<int64_t>());
 }
 
 TEST(JsonVariant_As_Tests, NumberStringAsInt64Positive) {
   JsonVariant variant = "9223372036854775807";
-  ASSERT_EQ(9223372036854775807, variant.as<std::int64_t>());
+  ASSERT_EQ(9223372036854775807, variant.as<int64_t>());
 }
 
 TEST(JsonVariant_As_Tests, RandomStringAsBool) {

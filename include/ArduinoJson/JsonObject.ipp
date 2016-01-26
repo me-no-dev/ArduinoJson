@@ -13,19 +13,19 @@
 namespace ArduinoJson {
 
 inline JsonVariant JsonObject::get(JsonObjectKey key) const {
-  node_type *node = getNodeAt(key.value);
+  node_type *node = getNodeAt(key.c_str());
   return node ? node->content.value : JsonVariant();
 }
 
 template <typename T>
 inline T JsonObject::get(JsonObjectKey key) const {
-  node_type *node = getNodeAt(key.value);
+  node_type *node = getNodeAt(key.c_str());
   return node ? node->content.value.as<T>() : JsonVariant::invalid<T>();
 }
 
 template <typename T>
 inline bool JsonObject::is(JsonObjectKey key) const {
-  node_type *node = getNodeAt(key.value);
+  node_type *node = getNodeAt(key.c_str());
   return node ? node->content.value.is<T>() : false;
 }
 
@@ -44,26 +44,26 @@ inline JsonVariant JsonObject::operator[](JsonObjectKey key) const {
 }
 
 inline bool JsonObject::containsKey(JsonObjectKey key) const {
-  return getNodeAt(key.value) != NULL;
+  return getNodeAt(key.c_str()) != NULL;
 }
 
 inline void JsonObject::remove(JsonObjectKey key) {
-  removeNode(getNodeAt(key.value));
+  removeNode(getNodeAt(key.c_str()));
 }
 
 template <typename T>
 inline bool JsonObject::setNodeAt(JsonObjectKey key, T value) {
-  node_type *node = getNodeAt(key.value);
+  node_type *node = getNodeAt(key.c_str());
   if (!node) node = addNewNode();
   return node && setNodeKey(node, key) && setNodeValue<T>(node, value);
 }
 
 inline bool JsonObject::setNodeKey(node_type *node, JsonObjectKey key) {
-  if (key.need_copy) {
-    node->content.key = _buffer->strdup(key.value);
+  if (key.needs_copy()) {
+    node->content.key = _buffer->strdup(key.c_str());
     if (node->content.key == NULL) return false;
   } else {
-    node->content.key = key.value;
+    node->content.key = key.c_str();
   }
   return true;
 }

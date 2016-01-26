@@ -10,11 +10,16 @@
 
 namespace ArduinoJson {
 
-struct JsonObjectKey {
-  JsonObjectKey(const char* key) : value(key), need_copy(false) {}
-  JsonObjectKey(const String& key) : value(key.c_str()), need_copy(true) {}
+class JsonObjectKey {
+ public:
+  JsonObjectKey(const char* key) : _value(key), _needs_copy(false) {}
+  JsonObjectKey(const String& key) : _value(key.c_str()), _needs_copy(true) {}
 
-  const char* value;
-  const bool need_copy;
+  const char* c_str() const { return _value; }
+  bool needs_copy() const { return _needs_copy; }
+
+ private:
+  const char* _value;
+  bool _needs_copy;
 };
 }
