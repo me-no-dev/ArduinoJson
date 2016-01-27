@@ -13,6 +13,8 @@
 
 namespace ArduinoJson {
 namespace TypeTraits {
+
+// A meta-function that returns true if T is an integral type.
 template <typename T>
 struct IsIntegral {
   static const bool value = TypeTraits::IsSame<T, signed char>::value ||

@@ -9,6 +9,8 @@
 
 namespace ArduinoJson {
 namespace TypeTraits {
+
+// A meta-function that return the type T if Condition is true.
 template <bool Condition, typename T>
 struct EnableIf {};
 

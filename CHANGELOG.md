@@ -5,6 +5,10 @@ HEAD
 ----
 
 * Made the library compatible with [PlatformIO](http://platformio.org/) (issue #181)
+* Added support of `long long` (issue #171)
+
+**BREAKING CHANGE**:
+If you defined `ARDUINOJSON_ENABLE_STD_STREAM`, you now need to define it to `1`.
 
 v5.0.7
 ------

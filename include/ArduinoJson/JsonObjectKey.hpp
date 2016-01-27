@@ -11,6 +11,7 @@
 
 namespace ArduinoJson {
 
+// Represents a key in a JsonObject
 class JsonObjectKey {
  public:
   JsonObjectKey(const char* key) : _value(key), _needs_copy(false) {}

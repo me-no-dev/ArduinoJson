@@ -9,6 +9,8 @@
 
 namespace ArduinoJson {
 namespace TypeTraits {
+
+// A meta-function that returns true if types T and U are the same.
 template <typename T, typename U>
 struct IsSame {
   static const bool value = false;

@@ -9,6 +9,8 @@
 
 namespace ArduinoJson {
 namespace TypeTraits {
+
+// A meta-function that return the type T without the const modifier
 template <typename T>
 struct RemoveConst {
   typedef T type;
